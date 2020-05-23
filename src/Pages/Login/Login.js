@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../../Components/Firebase/context';
 
 const INITIAL_STATE = {
@@ -11,14 +11,21 @@ const INITIAL_STATE = {
 };
 
 class Login extends Component {
-  state = { ...INITIAL_STATE };
+  constructor(props) {
+    super(props);
+    this.state = { ...INITIAL_STATE };
 
-  handleChange = event => {
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
     this.validate();
+    console.log(this.props.firebase.doSignInWithEmailAndPassword);
   };
 
-  validate = () => {
+  validate() {
     // TODO: be more accurate about validation
     const { email, username, password } = this.state;
     if (email.length && username.length && password.length) {
@@ -26,20 +33,22 @@ class Login extends Component {
     }
   }
 
-  handleSubmit = event => {
+  // TODO async await
+  handleSubmit(event) {
     const { email, password } = this.state;
-    console.log(this.props);
-    // this.props.firebase
-    //   .doCreateUserWithEmailAndPassword(email, password)
-    //   .then(authUser => {
-    //     this.setState({ ...INITIAL_STATE });
-    //   })
-    //   .catch(error => {
-    //     console.log('error');
-    //     this.setState({ error });
-    //   });
- 
-    event.preventDefault();
+  
+    this.props.firebase
+      .doSignInWithEmailAndPassword(email, password)
+      .then(authUser => {
+        this.setState({ ...INITIAL_STATE });
+        this.props.history.push('/texts');
+        console.log('success');
+      })
+      .catch(error => {
+        console.log('error');
+        this.setState({ error });
+      });
+      event.preventDefault(); 
   };
 
   render() {
@@ -75,4 +84,4 @@ class Login extends Component {
   }
 }
 
-export default withFirebase(Login);
+export default withRouter(withFirebase(Login));
