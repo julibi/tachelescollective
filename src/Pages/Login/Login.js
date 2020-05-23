@@ -27,8 +27,8 @@ class Login extends Component {
 
   validate() {
     // TODO: be more accurate about validation
-    const { email, username, password } = this.state;
-    if (email.length && username.length && password.length) {
+    const { email, password } = this.state;
+    if (email.length && password.length) {
       this.setState({ isInvalid: false });
     }
   }
@@ -55,13 +55,13 @@ class Login extends Component {
     const { email, username, password, error, isInvalid } = this.state;
     return(
       <form onSubmit={this.handleSubmit}>
-        <input
+        {/* <input
           name="username"
           value={username}
           onChange={this.handleChange}
           type="text"
           placeholder="Username"
-        />
+        /> */}
         <input
           name="email"
           value={email}
