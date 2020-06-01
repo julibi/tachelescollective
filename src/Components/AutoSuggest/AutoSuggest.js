@@ -1,39 +1,12 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React from "react";
 import Autosuggest from 'react-autosuggest';
 
-const users = [
-  {
-    id: 1,
-    username: 'Testuser'
-  },
-  {
-    id: 2,
-    username: 'Merry Christmas'
-  }
-];
-
-const getSuggestions = value => {
-  const inputValue = value.trim().toLowerCase();
-  const inputLength = inputValue.length;
-
-  return inputLength === 0 ? [] : users.filter(user =>
-    user.username.toLowerCase().slice(0, inputLength) === inputValue
-  );
-};
-const getSuggestionValue = suggestion => suggestion.username;
-const renderSuggestion = suggestion => (
-  <div>
-    {suggestion.username}
-  </div>
-);
-
-
-class AutoComplete extends React.Component {
+class AutoSuggest extends React.Component {
   constructor() {
     super();
     this.state = {
       value: '',
-      suggestions: users
+      suggestions: this.props ? this.props.values : []
     };
   }
 
@@ -47,7 +20,7 @@ class AutoComplete extends React.Component {
   // You already implemented this logic above, so just use it.
   onSuggestionsFetchRequested = ({ value }) => {
     this.setState({
-      suggestions: getSuggestions(value)
+      suggestions: this.getSuggestions(value, this.props.values)
     });
   };
 
@@ -58,12 +31,31 @@ class AutoComplete extends React.Component {
     });
   };
 
+  getSuggestions = (value, suggestions) => {
+    const inputValue = value.trim().toLowerCase();
+    const inputLength = inputValue.length;
+  
+    return inputLength === 0 ? [] : suggestions.filter(user =>
+      user.username.toLowerCase().slice(0, inputLength) === inputValue
+    );
+  };
+
+  getSuggestionValue = suggestion => suggestion.username;
+
+  renderSuggestion = suggestion => {
+    return (
+      <div>
+        {suggestion.username}
+      </div>
+    );
+  }
+
   render() {
     const { value, suggestions } = this.state;
 
     // Autosuggest will pass through all these props to the input.
     const inputProps = {
-      placeholder: 'Type a programming language',
+      placeholder: this.props.placeholder,
       value,
       onChange: this.onChange
     };
@@ -74,12 +66,12 @@ class AutoComplete extends React.Component {
         suggestions={suggestions}
         onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
         onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-        getSuggestionValue={getSuggestionValue}
-        renderSuggestion={renderSuggestion}
+        getSuggestionValue={this.getSuggestionValue}
+        renderSuggestion={this.renderSuggestion}
         inputProps={inputProps}
       />
     );
   }
 }
 
-export default AutoComplete;
+export default AutoSuggest;

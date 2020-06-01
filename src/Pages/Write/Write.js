@@ -3,7 +3,7 @@ import { createEditor } from 'slate'
 import { Slate, Editable, withReact } from 'slate-react'
 
 import { withFirebase } from '../../Components/Firebase/context';
-import AutoComplete from '../../Components/AutoComplete';
+import AutoSuggest from '../../Components/AutoSuggest';
 import './style.css';
 
 const Write = ({ firebase }) => {
@@ -31,7 +31,7 @@ const Write = ({ firebase }) => {
         <input value={title} onChange={ newValue=> setTitle(newValue) }/>
         <input value={challengedUser} onChange={ newValue=> setchallengedUser(newValue) }/>
 
-        <AutoComplete />
+        <AutoSuggest values={users && users} placeholder="Placeholders"/>
         <div className="test">
           <Slate editor={editor} value={mainText} onChange={newValue => setMainText(newValue)}>
             <Editable />
