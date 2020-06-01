@@ -1,22 +1,22 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { createEditor } from 'slate'
-import { Slate, Editable, withReact } from 'slate-react'
 
 import { withFirebase } from '../../Components/Firebase/context';
 import AutoSuggest from '../../Components/AutoSuggest';
 import './style.css';
 
 const Write = ({ firebase }) => {
-    const editor = useMemo(() => withReact(createEditor()), [])
-    const [mainText, setMainText] = useState([
-      {
-        type: 'paragraph',
-        children: [{ text: 'A line of text in a paragraph.' }]
-      }
-    ])
+    const MAX_LENGTH = 10;
+    const [mainText, setMainText] = useState('')
+    // it should reset, when clicking back space - if it is not anymore
+    const [error, setError] = useState('');
     const [title, setTitle] = useState('');
-    const [challengedUser, setchallengedUser] = useState('');
     const [users, setUsers] = useState([]);
+    const test = (value) => {
+      if (value.length === MAX_LENGTH) {
+        setError('Your text length exceeds the maximum of allowed characters.');
+      }
+      setMainText(value);
+    };
 
     useEffect(() => {
       const getUsers = async () => {
@@ -27,15 +27,28 @@ const Write = ({ firebase }) => {
     }, [firebase, users]);
 
     return (
-      <div>
-        <input value={title} onChange={ newValue=> setTitle(newValue) }/>
-        <input value={challengedUser} onChange={ newValue=> setchallengedUser(newValue) }/>
-
-        <AutoSuggest values={users && users} placeholder="Placeholders"/>
-        <div className="test">
-          <Slate editor={editor} value={mainText} onChange={newValue => setMainText(newValue)}>
-            <Editable />
-          </Slate>
+      <div className="pageWrapper">
+        <h1>{'WRITE'}</h1>
+        <div className="inputWrapper">
+          <input
+            value={title}
+            onChange={ event => setTitle(event.target.value) }
+            placeholder="Title"
+          />
+          <AutoSuggest
+            className="react-autosuggest"
+            values={users && users}
+            placeholder="Who do you want to challenge?"
+          />
+          <textarea
+            className="editor"
+            maxLength={MAX_LENGTH}
+            onChange={ event => test(event.target.value) }
+          >
+            {mainText}
+          </textarea>
+          <p className="error">{error ? error : ''}</p>
+          <button>{'Submit'}</button>
         </div>
       </div>
     );

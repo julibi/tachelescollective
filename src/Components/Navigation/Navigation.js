@@ -22,9 +22,13 @@ const Navigation = () => {
             <li>
               { authUser ? <SignOutButton/> : <Link to="login">Login</Link> }
             </li>
-            <li>
-              { authUser && <Link to="/write">Write</Link> }
-            </li>
+            { authUser &&
+              <li>
+                <Link to="/write">
+                  Write
+                </Link>
+              </li>
+            }
           </ul>
         </nav>
       </div>

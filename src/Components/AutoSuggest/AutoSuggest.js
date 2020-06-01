@@ -44,9 +44,9 @@ class AutoSuggest extends React.Component {
 
   renderSuggestion = suggestion => {
     return (
-      <div>
+      <span>
         {suggestion.username}
-      </div>
+      </span>
     );
   }
 
@@ -69,6 +69,7 @@ class AutoSuggest extends React.Component {
         getSuggestionValue={this.getSuggestionValue}
         renderSuggestion={this.renderSuggestion}
         inputProps={inputProps}
+        highlightFirstSuggestion
       />
     );
   }
