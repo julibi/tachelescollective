@@ -1,5 +1,6 @@
 import app from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/database';
 import firebaseConfig from '../../apiKeys';
 
 // const prodConfig = {
@@ -19,6 +20,7 @@ class Firebase {
     app.initializeApp(firebaseConfig);
     
     this.auth = app.auth();
+    this.db = app.database();
   }
 
   doSignInWithEmailAndPassword = (email, password) =>
@@ -30,6 +32,8 @@ class Firebase {
  
   doPasswordUpdate = password =>
     this.auth.currentUser.updatePassword(password);
+  
+  users = () => this.db.ref('/users');
 }
  
 export default Firebase;

@@ -8,6 +8,7 @@ import { withAuthentication } from './Components/Session';
 import Texts from './Pages/Texts';
 import About from './Pages/About';
 import Login from './Pages/Login';
+import Write from './Pages/Write';
 import Navigation from './Components/Navigation';
 
 class App extends Component {
@@ -20,6 +21,7 @@ class App extends Component {
           <Route path="/texts" component={Texts} />
           <Route path="/about" component={About} />
           <Route path="/login" component={Login} />
+          <Route path="/write" component={Write} />
         </Router>
       </div>
     );
