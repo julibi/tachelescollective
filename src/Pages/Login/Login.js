@@ -22,7 +22,6 @@ class Login extends Component {
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
     this.validate();
-    console.log(this.props.firebase.doSignInWithEmailAndPassword);
   };
 
   validate() {

@@ -34,6 +34,10 @@ class Firebase {
     this.auth.currentUser.updatePassword(password);
   
   users = () => this.db.ref('/users');
+
+  texts = () => this.db.ref('/texts');
+
+  currentUser = () => this.auth.currentUser.uid;
 }
  
 export default Firebase;
