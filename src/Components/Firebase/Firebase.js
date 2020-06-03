@@ -37,6 +37,8 @@ class Firebase {
 
   texts = () => this.db.ref('/texts');
 
+  stream = () => this.db.ref('/streams');
+
   currentUser = () => this.auth.currentUser.uid;
 }
  

@@ -11,6 +11,7 @@ class AutoSuggest extends React.Component {
   }
 
   onChange = (event, { newValue }) => {
+    this.props.onChange(newValue);
     this.setState({
       value: newValue
     });
