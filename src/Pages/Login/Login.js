@@ -51,7 +51,7 @@ class Login extends Component {
   };
 
   render() {
-    const { email, username, password, error, isInvalid } = this.state;
+    const { email, password, error, isInvalid } = this.state;
     return(
       <form onSubmit={this.handleSubmit}>
         {/* <input

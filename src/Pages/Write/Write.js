@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { withRouter } from 'react-router-dom';
+import history from '../../history';
 import { withFirebase } from '../../Components/Firebase/context';
 import AutoSuggest from '../../Components/AutoSuggest';
 import './style.css';
 
 const Write = ({ firebase, whatexactly }) => {
-    const MIN_LENGTH = 10;
-    const MAX_LENGTH = 20;
+    const MIN_LENGTH = 33;
+    const MAX_LENGTH = 800;
+    const clearState = () => {
+      setMainText('');
+      setError('');
+      setTitle('');
+      setUsers('');
+      setMyUsername('');
+      setChallenged('');
+    };
     const [mainText, setMainText] = useState('')
     // it should reset, when clicking back space - if it is not anymore
     const [error, setError] = useState('');
-    const [stream, setStream] = useState('');
-    const [allStreams, setAllStreams] = useState([]);
     const [title, setTitle] = useState('');
     const [users, setUsers] = useState([]);
     const [myUsername, setMyUsername] = useState('');
@@ -29,9 +36,7 @@ const Write = ({ firebase, whatexactly }) => {
         setError(`Your text needs to be at least${MIN_LENGTH} characters.`);
       } else if(!error.length) {
         try {
-          // Set ist nicht richtig, push?
           await firebase.texts().push({
-            // automatically create ID 
             mainText,
             publishedAt: {
               server_timestamp:{  
@@ -42,24 +47,10 @@ const Write = ({ firebase, whatexactly }) => {
             authorName: myUsername,
             title,
             challenged,
-            stream,
+            stream: "livijulitest",
           });
-          
-          // console.log(myArray);
-          // await firebase.streams().set({
-          //   createdAt: {
-          //     server_timestamp:{  
-          //       ".sv":"timestamp"
-          //    },
-          //   },
-          //   authorID: firebase.currentUser(),
-          //   authorName: myUsername,
-          //   streamName: stream,
-          //   // should contain {"id": "name"}
-          //   texts: []
-          // });
-          // empty all state
-          // go to /texts route
+          clearState();
+          history.push('/texts');
         } catch(error) {
           console.log(error);
         }
@@ -79,29 +70,12 @@ const Write = ({ firebase, whatexactly }) => {
         await firebase.users().once('value', snapshot => setMyUsername(snapshot.val().find(item => item.id === firebase.currentUser()).username));
       };
       getCurrentUsername();
-
-      let myArray = [];
-      const getAllStreams = async () => {
-        await firebase.texts().orderByChild('stream').once('value', (snapshot) => {
-          for (let [key, value] of Object.entries(snapshot.val())) {
-            myArray.push(value.stream);
-          }});
-          const uniqueStreams = [...new Set(myArray)]
-          setAllStreams(uniqueStreams);
-      };
-      getAllStreams();
     }, [firebase, users]);
 
     return (
       <div className="pageWrapper">
         <h1>{'WRITE'}</h1>
         <div className="inputWrapper">
-          <input
-            value={stream}
-            // TODO: throw an error, when stream already exists
-            onChange={ event => setStream(event.target.value) }
-            placeholder="Stream"
-          />
           <input
             value={title}
             onChange={ event => setTitle(event.target.value) }

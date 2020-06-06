@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import {
-  BrowserRouter as Router,
+  Router,
   Route
 } from "react-router-dom";
+import history from './history';
 
 import { withAuthentication } from './Components/Session';
 import Texts from './Pages/Texts';
@@ -15,7 +16,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Router>
+        <Router history={history}>
           <Navigation />
           <Route exact path="/" component={Texts} />
           <Route path="/texts" component={Texts} />
