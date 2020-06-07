@@ -1,0 +1,27 @@
+.container {
+  display:flex;
+  flex-direction: column;
+  padding: 1em;
+}
+
+.textWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+@media only screen and (min-width: 900px) {
+  .container {
+    padding: 3em;
+  }
+  
+  .textWrapper:nth-child(even) {
+    padding-left: 50%;
+    text-align: right;
+  }
+  
+  .textWrapper:nth-child(odd) {
+    padding-right: 50%;
+    text-align: left;
+  }
+}
+

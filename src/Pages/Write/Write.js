@@ -5,7 +5,7 @@ import { withFirebase } from '../../Components/Firebase/context';
 import AutoSuggest from '../../Components/AutoSuggest';
 import './style.css';
 
-const Write = ({ firebase, whatexactly }) => {
+const Write = ({ firebase, whatexactly, match }) => {
     const MIN_LENGTH = 33;
     const MAX_LENGTH = 800;
     const clearState = () => {
@@ -17,7 +17,6 @@ const Write = ({ firebase, whatexactly }) => {
       setChallenged('');
     };
     const [mainText, setMainText] = useState('')
-    // it should reset, when clicking back space - if it is not anymore
     const [error, setError] = useState('');
     const [title, setTitle] = useState('');
     const [users, setUsers] = useState([]);
@@ -69,8 +68,17 @@ const Write = ({ firebase, whatexactly }) => {
       const getCurrentUsername = async () => {
         await firebase.users().once('value', snapshot => setMyUsername(snapshot.val().find(item => item.id === firebase.currentUser()).username));
       };
-      getCurrentUsername();
+      getCurrentUsername();;
     }, [firebase, users]);
+
+    useEffect(() => {
+     // TODO: in write sollte man sehen, auf welchen Text man antwortet (wie genau?)
+      // mithilfe der TextId, alle Daten von ChallengerText getten
+     // Sollte man dann überhaupt einfach so auf /write route zugreifen können?
+        //Livi fragen. Ich denke, Nein. Man darf ja eh nur schreiben, wenn man dran ist
+
+      console.log(match.params);
+    }, [match])
 
     return (
       <div className="pageWrapper">
@@ -88,12 +96,11 @@ const Write = ({ firebase, whatexactly }) => {
             onChange={ value => setChallenged(value) }
           />
           <textarea
+            value={mainText}
             className="editor"
             maxLength={MAX_LENGTH}
             onChange={ event => handleTextareaChange(event.target.value) }
-          >
-            {mainText}
-          </textarea>
+          />
           <p className="error">{error ? error : ''}</p>
           <button onClick={() => handleTextSubmit()}>{'Submit'}</button>
         </div>

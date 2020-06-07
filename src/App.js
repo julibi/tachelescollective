@@ -23,6 +23,7 @@ class App extends Component {
           <Route path="/about" component={About} />
           <Route path="/login" component={Login} />
           <Route path="/write" component={Write} />
+          <Route path="/write/:id" exact component={Write} />
         </Router>
       </div>
     );
