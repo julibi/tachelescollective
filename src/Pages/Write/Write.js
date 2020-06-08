@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { withRouter } from 'react-router-dom';
 import history from '../../history';
+import { withAuthorization, AuthUserContext } from '../../Components/Session';
 import { withFirebase } from '../../Components/Firebase/context';
 import AutoSuggest from '../../Components/AutoSuggest';
 import './style.css';
@@ -81,32 +82,38 @@ const Write = ({ firebase, whatexactly, match }) => {
     }, [match])
 
     return (
-      <div className="pageWrapper">
-        <h1>{'WRITE'}</h1>
-        <div className="inputWrapper">
-          <input
-            value={title}
-            onChange={ event => setTitle(event.target.value) }
-            placeholder="Title"
-          />
-          <AutoSuggest
-            className="react-autosuggest"
-            values={users && users}
-            placeholder="Who do you want to challenge?"
-            onChange={ value => setChallenged(value) }
-          />
-          <textarea
-            value={mainText}
-            className="editor"
-            maxLength={MAX_LENGTH}
-            onChange={ event => handleTextareaChange(event.target.value) }
-          />
-          <p className="error">{error ? error : ''}</p>
-          <button onClick={() => handleTextSubmit()}>{'Submit'}</button>
-        </div>
-      </div>
+      <AuthUserContext.Consumer>
+        {authUser => (
+          <div className="pageWrapper">
+            <h1>Account: {authUser.email}</h1>
+            <h1>{'WRITE'}</h1>
+            <div className="inputWrapper">
+              <input
+                value={title}
+                onChange={ event => setTitle(event.target.value) }
+                placeholder="Title"
+              />
+              <AutoSuggest
+                className="react-autosuggest"
+                values={users && users}
+                placeholder="Who do you want to challenge?"
+                onChange={ value => setChallenged(value) }
+              />
+              <textarea
+                value={mainText}
+                className="editor"
+                maxLength={MAX_LENGTH}
+                onChange={ event => handleTextareaChange(event.target.value) }
+              />
+              <p className="error">{error ? error : ''}</p>
+              <button onClick={() => handleTextSubmit()}>{'Submit'}</button>
+            </div>
+          </div>
+        )}
+      </AuthUserContext.Consumer>
     );
 }
 
+const condition = authUser => !!authUser;
 
-export default withRouter(withFirebase(Write));
+export default withAuthorization(condition)(withRouter(withFirebase(Write)));
