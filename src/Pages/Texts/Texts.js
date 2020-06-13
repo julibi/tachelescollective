@@ -16,7 +16,8 @@ const Texts = ({ firebase }) => {
   const [lastTextId, setLastTextId] = useState('');
   const [challengedName, setChallengedName] = useState('');
   const [shouldShowReplyButton, setShouldShowReplyButton] = useState(false);
-
+  const whoseTurnInfo = (challengedName) =>  <div>{`It is ${challengedName}'s time to write.`}</div>;
+  
   useEffect(() => {
     const getTexts = async () => {
       const results = await firebase.texts().once('value', snapshot => snapshot);
@@ -53,17 +54,17 @@ const Texts = ({ firebase }) => {
         <div className="textWrapper" key={text.id}>
           {text.title && <h2>{text.title}</h2>}
           <h3>{text.authorName}</h3>
-          <p>{text.mainText}</p>
+          <p className="textContent">{text.mainText}</p>
         </div>
       )}
       <AuthUserContext.Consumer>
         {authUser => {  
           if(authUser) {
             setUserId(authUser.uid);
-            return shouldShowReplyButton &&
+            return shouldShowReplyButton ? (
               <button onClick={() => history.push(`/write/${lastTextId}`)}>
                 {`Come on ${myUsername}, reply!`}
-              </button>;
+              </button>) : (<div>{`It is ${challengedName}'s time to write.`}</div>);
           } else {
             return(
             <div>{`It is ${challengedName}'s time to write.`}</div>

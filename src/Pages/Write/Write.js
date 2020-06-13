@@ -59,6 +59,7 @@ const Write = ({ firebase, match }) => {
     };
 
     useEffect(() => {
+      const abortController = new AbortController();
       const getUsers = async () => {
         // TODO: sort yourself out of that array
         // TODO: throw an error when submitting with wrong username
@@ -70,13 +71,20 @@ const Write = ({ firebase, match }) => {
         await firebase.users().once('value', snapshot => setMyUsername(snapshot.val().find(item => item.id === firebase.currentUser()).username));
       };
       getCurrentUsername();
+      return () => {
+        abortController.abort();
+      };
     }, [firebase, users]);
 
     useEffect(() => {
+      const abortController = new AbortController();
      // TODO: in write sollte man sehen, auf welchen Text man antwortet (wie genau?)
       // mithilfe der TextId, alle Daten von ChallengerText getten
      
       console.log(match.params);
+      return () => {
+        abortController.abort();
+      };
     }, [match])
 
     return (
