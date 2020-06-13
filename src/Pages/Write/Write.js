@@ -6,7 +6,7 @@ import { withFirebase } from '../../Components/Firebase/context';
 import AutoSuggest from '../../Components/AutoSuggest';
 import './style.css';
 
-const Write = ({ firebase, whatexactly, match }) => {
+const Write = ({ firebase, match }) => {
     const MIN_LENGTH = 33;
     const MAX_LENGTH = 800;
     const clearState = () => {
@@ -69,15 +69,13 @@ const Write = ({ firebase, whatexactly, match }) => {
       const getCurrentUsername = async () => {
         await firebase.users().once('value', snapshot => setMyUsername(snapshot.val().find(item => item.id === firebase.currentUser()).username));
       };
-      getCurrentUsername();;
+      getCurrentUsername();
     }, [firebase, users]);
 
     useEffect(() => {
      // TODO: in write sollte man sehen, auf welchen Text man antwortet (wie genau?)
       // mithilfe der TextId, alle Daten von ChallengerText getten
-     // Sollte man dann überhaupt einfach so auf /write route zugreifen können?
-        //Livi fragen. Ich denke, Nein. Man darf ja eh nur schreiben, wenn man dran ist
-
+     
       console.log(match.params);
     }, [match])
 
