@@ -21,7 +21,6 @@ const Write = ({ firebase, match }) => {
     const [error, setError] = useState('');
     const [title, setTitle] = useState('');
     const [users, setUsers] = useState([]);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [myUsername, setMyUsername] = useState('');
     const [challenged, setChallenged] = useState('');
     const handleTextareaChange = (value) => {
