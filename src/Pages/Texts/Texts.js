@@ -33,7 +33,7 @@ const Texts = ({ firebase }) => {
     const getCurrentUsername = async () => {
       await firebase.users().once('value', snapshot => setMyUsername(snapshot.val().find(user => user.id === myUserId)?.username));
     };
-    !myUsername && getCurrentUsername();
+    getCurrentUsername();
     getTexts();
   }, [firebase, myUserId, myUsername])
 

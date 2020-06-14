@@ -4,8 +4,8 @@ import { withFirebase } from '../Firebase/context';
 import history from '../../history';
  
 const SignOutButton = ({ firebase }) => {
-  const handleClick = () => {
-    firebase.doSignOut();
+  const handleClick = async() => {
+    await firebase.doSignOut();
     history.push('/texts');
   };
   return (
