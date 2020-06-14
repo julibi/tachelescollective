@@ -21,6 +21,7 @@ const Write = ({ firebase, match }) => {
     const [error, setError] = useState('');
     const [title, setTitle] = useState('');
     const [users, setUsers] = useState([]);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [myUsername, setMyUsername] = useState('');
     const [challenged, setChallenged] = useState('');
     const handleTextareaChange = (value) => {
@@ -68,7 +69,7 @@ const Write = ({ firebase, match }) => {
       getUsers();
 
       const getCurrentUsername = async () => {
-        await firebase.users().once('value', snapshot => setMyUsername(snapshot.val().find(item => item.id === firebase.currentUser()).username));
+        await firebase.users().once('value', snapshot => setMyUsername(snapshot.val().find(item => item.id === firebase.currentUser())?.username));
       };
       getCurrentUsername();
       return () => {
@@ -80,8 +81,6 @@ const Write = ({ firebase, match }) => {
       const abortController = new AbortController();
      // TODO: in write sollte man sehen, auf welchen Text man antwortet (wie genau?)
       // mithilfe der TextId, alle Daten von ChallengerText getten
-     
-      console.log(match.params);
       return () => {
         abortController.abort();
       };
@@ -89,33 +88,35 @@ const Write = ({ firebase, match }) => {
 
     return (
       <AuthUserContext.Consumer>
-        {authUser => (
-          <div className="pageWrapper">
-            <h1>Account: {authUser.email}</h1>
-            <h1>{'WRITE'}</h1>
-            <div className="inputWrapper">
-              <input
-                value={title}
-                onChange={ event => setTitle(event.target.value) }
-                placeholder="Title"
-              />
-              <AutoSuggest
-                className="react-autosuggest"
-                values={users && users}
-                placeholder="Who do you want to challenge?"
-                onChange={ value => setChallenged(value) }
-              />
-              <textarea
-                value={mainText}
-                className="editor"
-                maxLength={MAX_LENGTH}
-                onChange={ event => handleTextareaChange(event.target.value) }
-              />
-              <p className="error">{error ? error : ''}</p>
-              <button onClick={() => handleTextSubmit()}>{'Submit'}</button>
+        {authUser => {
+          return (
+            <div className="pageWrapper">
+              <h1>Account: {authUser.email}</h1>
+              <h1>{'WRITE'}</h1>
+              <div className="inputWrapper">
+                <input
+                  value={title}
+                  onChange={ event => setTitle(event.target.value) }
+                  placeholder="Title"
+                />
+                <AutoSuggest
+                  className="react-autosuggest"
+                  values={users && users}
+                  placeholder="Who do you want to challenge?"
+                  onChange={ value => setChallenged(value) }
+                />
+                <textarea
+                  value={mainText}
+                  className="editor"
+                  maxLength={MAX_LENGTH}
+                  onChange={ event => handleTextareaChange(event.target.value) }
+                />
+                <p className="error">{error ? error : ''}</p>
+                <button onClick={() => handleTextSubmit()}>{'Submit'}</button>
+              </div>
             </div>
-          </div>
-        )}
+          )
+        }}
       </AuthUserContext.Consumer>
     );
 }

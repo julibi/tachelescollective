@@ -1,11 +1,18 @@
 import React from 'react';
- 
+import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../Firebase/context';
+import history from '../../history';
  
-const SignOutButton = ({ firebase }) => (
-  <button type="button" onClick={firebase.doSignOut}>
-    Sign Out
-  </button>
-);
+const SignOutButton = ({ firebase }) => {
+  const handleClick = () => {
+    firebase.doSignOut();
+    history.push('/texts');
+  };
+  return (
+    <button type="button" onClick={handleClick}>
+      Sign Out
+    </button> 
+  )
+};
  
-export default withFirebase(SignOutButton);
+export default withRouter(withFirebase(SignOutButton));

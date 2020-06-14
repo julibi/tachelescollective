@@ -16,7 +16,6 @@ const Texts = ({ firebase }) => {
   const [lastTextId, setLastTextId] = useState('');
   const [challengedName, setChallengedName] = useState('');
   const [shouldShowReplyButton, setShouldShowReplyButton] = useState(false);
-  const whoseTurnInfo = (challengedName) =>  <div>{`It is ${challengedName}'s time to write.`}</div>;
   
   useEffect(() => {
     const getTexts = async () => {
