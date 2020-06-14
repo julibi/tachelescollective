@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../../Components/Firebase/context';
 
@@ -16,11 +16,18 @@ const Login = ({ history, firebase }) => {
     validate();
   };
 
-  const validate = async() => {
+  const validate = useCallback(() => {
     // TODO: be more accurate about validation
     if (email.length && password.length) {
-      await setIsInvalid(false);
+      setIsInvalid(false);
     }
+  });
+
+  const resetLogin = () => {
+    setEmail('');
+    setPassword('');
+    setError(null);
+    setIsInvalid(false);
   };
 
   // TODO async await
@@ -28,10 +35,7 @@ const Login = ({ history, firebase }) => {
     firebase
       .doSignInWithEmailAndPassword(email, password)
       .then(authUser => {
-        setEmail('');
-        setPassword('');
-        setError(null);
-        setIsInvalid(false);
+        resetLogin();
         history.push('/texts');
       })
       .catch(error => {
@@ -40,6 +44,10 @@ const Login = ({ history, firebase }) => {
       });
       event.preventDefault(); 
   };
+
+  useEffect(() => {
+    validate();
+  }, [email, password, validate]);
 
   return(
     <form onSubmit={(event) => handleSubmit(event, email, password)}>
