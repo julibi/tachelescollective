@@ -9,19 +9,18 @@ const Login = ({ history, firebase }) => {
   const [isInvalid, setIsInvalid] = useState(true);
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
-    validate();
   };
   const handleChangePassword = (event) => {
     setPassword(event.target.value);
-    validate();
   };
 
   const validate = useCallback(() => {
-    // TODO: be more accurate about validation
-    if (email.length && password.length) {
+    if (email.length < 1|| password.length < 1) {
+      setIsInvalid(true);
+    } else {
       setIsInvalid(false);
     }
-  });
+  },[email.length, password]);
 
   const resetLogin = () => {
     setEmail('');

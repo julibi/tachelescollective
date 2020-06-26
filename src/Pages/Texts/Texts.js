@@ -6,9 +6,6 @@ import history from '../../history';
 import './Text.css';
 
 
-
-
-// TODO: we need a loading state
 const Texts = ({ firebase }) => {
   const [texts, setTexts] = useState([]);
   const [myUserId, setUserId] = useState(null);
@@ -19,12 +16,14 @@ const Texts = ({ firebase }) => {
   
   useEffect(() => {
     const getTexts = async () => {
-      const results = await firebase.texts().once('value', snapshot => snapshot);
-      let formattedTextlist = [];
-      for (let i = 0; i < Object.values(results.val()).length; i++) {
-        formattedTextlist.push({id: Object.keys(results.val())[i], ...Object.values(results.val())[i]})
-      }
-      setTexts(formattedTextlist);
+      await firebase.texts().on('value', snapshot => {
+        let formattedTextlist = [];
+        for (let i = 0; i < Object.values(snapshot.val()).length; i++) {
+          formattedTextlist.push({id: Object.keys(snapshot.val())[i], ...Object.values(snapshot.val())[i]})
+        }
+        setTexts(formattedTextlist);
+      });
+
     };
     // TODO: refactor, exact same fetching method inside Write.js
     // const getCurrentUsername = async () => {
@@ -50,7 +49,7 @@ const Texts = ({ firebase }) => {
   return (
     <div className="container">
       {texts.length > 0 && texts.map(text =>
-        <div className="textWrapper" key={text.id}>
+        <div className="textWrapper" key={text.id} onClick={() => history.push(`/texts/${text.id}`)}>
           {text.title && <h2>{text.title}</h2>}
           <h3>{text.authorName}</h3>
           <p className="textContent">{text.mainText}</p>

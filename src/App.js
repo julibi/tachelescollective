@@ -7,6 +7,7 @@ import history from './history';
 
 import { withAuthentication } from './Components/Session';
 import Texts from './Pages/Texts';
+import TextDetail from './Pages/TextDetail';
 import About from './Pages/About';
 import Login from './Pages/Login';
 import Write from './Pages/Write';
@@ -20,6 +21,7 @@ class App extends Component {
           <Navigation />
           <Route exact path="/" component={Texts} />
           <Route path="/texts" component={Texts} />
+          <Route path="/texts/:id" component={TextDetail} />
           <Route path="/about" component={About} />
           <Route path="/login" component={Login} />
           <Route path="/write/:id" exact component={Write} />
