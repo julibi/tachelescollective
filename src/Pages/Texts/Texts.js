@@ -3,7 +3,7 @@ import { withFirebase } from '../../Components/Firebase/context';
 import { withAuthentication, AuthUserContext } from '../../Components/Session';
 import history from '../../history';
 
-import './Text.css';
+import './Texts.css';
 
 
 const Texts = ({ firebase }) => {

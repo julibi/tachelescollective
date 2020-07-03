@@ -20,7 +20,7 @@ class App extends Component {
         <Router history={history}>
           <Navigation />
           <Route exact path="/" component={Texts} />
-          <Route path="/texts" component={Texts} />
+          <Route exact path="/texts" component={Texts} />
           <Route path="/texts/:id" component={TextDetail} />
           <Route path="/about" component={About} />
           <Route path="/login" component={Login} />

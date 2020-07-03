@@ -40,6 +40,8 @@ class Firebase {
   stream = () => this.db.ref('/streams');
 
   currentUser = () => this.auth.currentUser?.uid;
+  
+  text = (textId) => this.db.ref('/texts' + textId);
 }
  
 export default Firebase;
