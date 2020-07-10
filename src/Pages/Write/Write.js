@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { withRouter } from 'react-router-dom';
+import NoMatch from '../NoMatch';
 import history from '../../history';
 import { withAuthorization, AuthUserContext } from '../../Components/Session';
 import { withFirebase } from '../../Components/Firebase/context';
@@ -95,8 +96,7 @@ const Write = ({ firebase, match, location }) => {
       <AuthUserContext.Consumer>
         {authUser => {
           if (writerName !== myUsername) {
-            // 404
-            return null;
+            return NoMatch;
           } else {
             return (
               <div className="pageWrapper">

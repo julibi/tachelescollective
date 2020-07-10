@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
   Router,
-  Route
+  Route,
+  Switch
 } from "react-router-dom";
 import history from './history';
 
@@ -11,6 +12,7 @@ import TextDetail from './Pages/TextDetail';
 import About from './Pages/About';
 import Login from './Pages/Login';
 import Write from './Pages/Write';
+import NoMatch from './Pages/NoMatch';
 import Navigation from './Components/Navigation';
 
 class App extends Component {
@@ -19,12 +21,15 @@ class App extends Component {
       <div className="App">
         <Router history={history}>
           <Navigation />
-          <Route exact path="/" component={Texts} />
-          <Route exact path="/texts" component={Texts} />
-          <Route path="/texts/:id" component={TextDetail} />
-          <Route path="/about" component={About} />
-          <Route path="/login" component={Login} />
-          <Route path="/write/:id" exact component={Write} />
+          <Switch>
+            <Route exact path="/" component={Texts} />
+            <Route exact path="/texts" component={Texts} />
+            <Route exact path="/texts/:id" component={TextDetail} />
+            <Route exact path="/about" component={About} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/write/:id" component={Write} />
+            <Route component={NoMatch} />
+          </Switch>
         </Router>
       </div>
     );
