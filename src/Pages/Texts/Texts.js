@@ -21,7 +21,7 @@ const Texts = ({ firebase }) => {
         for (let i = 0; i < Object.values(snapshot.val()).length; i++) {
           formattedTextlist.push({id: Object.keys(snapshot.val())[i], ...Object.values(snapshot.val())[i]})
         }
-        setTexts(formattedTextlist);
+        setTexts(formattedTextlist.reverse());
       });
 
     };
@@ -48,13 +48,6 @@ const Texts = ({ firebase }) => {
 
   return (
     <div className="container">
-      {texts.length > 0 && texts.map(text =>
-        <div className="textWrapper" key={text.id} onClick={() => history.push(`/texts/${text.id}`)}>
-          {text.title && <h2>{text.title}</h2>}
-          <h3>{text.authorName}</h3>
-          <p className="textContent">{text.mainText}</p>
-        </div>
-      )}
       <AuthUserContext.Consumer>
         {authUser => {  
           if(authUser) {
@@ -70,6 +63,13 @@ const Texts = ({ firebase }) => {
           }
         }}
       </AuthUserContext.Consumer>
+      {texts.length > 0 && texts.map(text =>
+        <div className="textWrapper" key={text.id} onClick={() => history.push(`/texts/${text.id}`)}>
+          {text.title && <h2>{text.title}</h2>}
+          <h3>{text.authorName}</h3>
+          <p className="textContent">{text.mainText}</p>
+        </div>
+      )}
     </div>
   );
 }

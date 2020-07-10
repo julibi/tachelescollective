@@ -6,7 +6,7 @@ import { withFirebase } from '../../Components/Firebase/context';
 import AutoSuggest from '../../Components/AutoSuggest';
 import './style.css';
 
-const Write = ({ firebase, match }) => {
+const Write = ({ firebase, match, location }) => {
     const MIN_LENGTH = 33;
     const MAX_LENGTH = 800;
     const clearState = () => {
@@ -23,6 +23,7 @@ const Write = ({ firebase, match }) => {
     const [users, setUsers] = useState([]);
     const [myUsername, setMyUsername] = useState('');
     const [challenged, setChallenged] = useState('');
+    const [writerName, setWriterName] = useState(null)
     const handleTextareaChange = (value) => {
       if (value.length === MAX_LENGTH) {
         setError('Your text length exceeds the maximum of allowed characters.');
@@ -71,10 +72,15 @@ const Write = ({ firebase, match }) => {
         await firebase.users().once('value', snapshot => setMyUsername(snapshot.val().find(item => item.id === firebase.currentUser())?.username));
       };
       getCurrentUsername();
+      const textId = location.pathname.slice(6, location.pathname.length);
+      const getWriterName = async () => {
+        await firebase.text(textId).once('value', snapshot => setWriterName(snapshot.val()?.challenged));
+      };
+      getWriterName();
       return () => {
         abortController.abort();
       };
-    }, [firebase, users]);
+    }, [firebase, location.pathname]);
 
     useEffect(() => {
       const abortController = new AbortController();
@@ -88,33 +94,38 @@ const Write = ({ firebase, match }) => {
     return (
       <AuthUserContext.Consumer>
         {authUser => {
-          return (
-            <div className="pageWrapper">
-              <h1>Account: {authUser.email}</h1>
-              <h1>{'WRITE'}</h1>
-              <div className="inputWrapper">
-                <input
-                  value={title}
-                  onChange={ event => setTitle(event.target.value) }
-                  placeholder="Title"
-                />
-                <AutoSuggest
-                  className="react-autosuggest"
-                  values={users && users}
-                  placeholder="Who do you want to challenge?"
-                  onChange={ value => setChallenged(value) }
-                />
-                <textarea
-                  value={mainText}
-                  className="editor"
-                  maxLength={MAX_LENGTH}
-                  onChange={ event => handleTextareaChange(event.target.value) }
-                />
-                <p className="error">{error ? error : ''}</p>
-                <button onClick={() => handleTextSubmit()}>{'Submit'}</button>
+          if (writerName !== myUsername) {
+            // 404
+            return null;
+          } else {
+            return (
+              <div className="pageWrapper">
+                <h1>Account: {authUser.email}</h1>
+                <h1>{'WRITE'}</h1>
+                <div className="inputWrapper">
+                  <input
+                    value={title}
+                    onChange={ event => setTitle(event.target.value) }
+                    placeholder="Title"
+                  />
+                  <AutoSuggest
+                    className="react-autosuggest"
+                    values={users && users}
+                    placeholder="Who do you want to challenge?"
+                    onChange={ value => setChallenged(value) }
+                  />
+                  <textarea
+                    value={mainText}
+                    className="editor"
+                    maxLength={MAX_LENGTH}
+                    onChange={ event => handleTextareaChange(event.target.value) }
+                  />
+                  <p className="error">{error ? error : ''}</p>
+                  <button onClick={() => handleTextSubmit()}>{'Submit'}</button>
+                </div>
               </div>
-            </div>
-          )
+            )
+          }
         }}
       </AuthUserContext.Consumer>
     );
