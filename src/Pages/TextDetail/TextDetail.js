@@ -6,16 +6,42 @@ import history from '../../history';
 import './TextDetail.css';
 
 const TextDetail = ({ firebase, location }) => {
-  const [text, setText] = useState(null)
+  const [text, setText] = useState(null);
+  const [textIds, setTextIds] = useState([]);
+  const [textIdWithoutSlash, setTextIdWithoutSlash] = useState(null);
+
   useEffect(() => {
     const textId = location.pathname.slice(6, location.pathname.length);
+    setTextIdWithoutSlash(textId.substr(1, textId.length - 1));
     const getText = async () => {
       await firebase.text(textId).once('value', snapshot => setText(snapshot.val()));
     };
     getText();
+
+    const getTextIds = async () => {
+      await firebase.texts().on('value', snapshot => {
+        let formattedTextlist = [];
+        for (let i = 0; i < Object.values(snapshot.val()).length; i++) {
+          formattedTextlist.push(Object.keys(snapshot.val())[i])
+        }
+        setTextIds(formattedTextlist);
+      });
+    };
+
+    getTextIds();
+    
+
   }, [firebase, location.pathname]);
 
-  if (!text) return <div>'LOADING'</div>;
+  if (!text) {
+    if (textIds.length) {
+      // in case the user accesses a route like /texts/bullshit
+      if (!textIds.includes(textIdWithoutSlash)) {
+        return <div>'SORRY THE TEXT YOU ARE LOOKING FOR DOES NOT EXIST'</div>;
+      }
+    }
+    return <div>'LOADING'</div>;
+  }
 
   return (
     <div className="container">
