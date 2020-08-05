@@ -38,9 +38,13 @@ const Texts = ({ firebase }) => {
 
   useEffect(() => {
     if (texts.length) {
-      setLastTextId(texts[texts.length-1].id);
-      setChallengedName(texts[texts.length-1].challenged);
-      if (texts[texts.length-1].challenged === myUsername) {
+      setLastTextId(texts[0].id);
+      setChallengedName(texts[0].challenged);
+      
+      if (texts[0].challenged === myUsername) {
+        console.log(texts[0]);
+        console.log(texts[0].challenged);
+        console.log(myUsername);
         setShouldShowReplyButton(true)
       }
     } 
