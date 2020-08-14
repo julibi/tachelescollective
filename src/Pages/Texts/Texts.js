@@ -7,6 +7,8 @@ import Timer from '../../Components/Timer'
 
 import './Texts.css';
 
+// todo: modularize sidebar and nav, so that other componens just fit into the given space automatically
+
 const Texts = ({ firebase }) => {
   const [texts, setTexts] = useState([]);
   const [myUserId, setUserId] = useState(null);
