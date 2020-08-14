@@ -11,3 +11,8 @@
   flex-grow: 1;
   border-right: 1px solid;
 }
+
+.content {
+  flex-grow: 4;
+  height: 100%;
+}

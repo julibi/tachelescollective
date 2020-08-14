@@ -1,10 +1,13 @@
 import React from 'react';
+import Pagegrid from '../../Components/Pagegrid';
 
 const NoMatch = () => {
   return (
-    <div>
-      {'NoMatch'}
-    </div>
+    <Pagegrid>
+      <div>
+        {'NoMatch'}
+      </div>
+    </Pagegrid>
   );
 }
 

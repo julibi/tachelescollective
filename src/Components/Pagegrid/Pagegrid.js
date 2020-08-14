@@ -6,7 +6,7 @@ const Pagegrid = ({children}) => {
   return(
     <div className="grid">
       <div className="sidebar" />
-      {children}
+      <div className="content">{children}</div>
     </div>
   );
 }
