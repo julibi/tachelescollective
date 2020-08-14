@@ -1,0 +1,21 @@
+.navigationGrid {
+  display: flex;
+  flex-direction: row;
+  border-top: 1px solid;
+  border-left: 1px solid;
+  border-right: 1px solid;
+}
+
+.navigationText {
+  flex-grow: 3;
+  border-right: 1px solid;
+}
+
+.navigationAbout {
+  flex-grow: 4;
+  border-right: 1px solid;
+}
+
+.navigationAuth {
+  flex-grow: 1;
+}

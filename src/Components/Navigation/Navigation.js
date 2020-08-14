@@ -5,25 +5,25 @@ import {
 import SignOutButton from '../SignOutButton';
 import { AuthUserContext } from '../Session';
 
+import './Navigation.css';
 
 const Navigation = () => {
   return(
     <AuthUserContext.Consumer>
       { authUser =>
-       <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/texts">Texts</Link>
-            </li>
-            <li>
-              <Link to="/about">About</Link>
-            </li>  
-            <li>
-              { authUser ? <SignOutButton/> : <Link to="login">Login</Link> }
-            </li>
-          </ul>
-        </nav>
+       <div className="navigationGrid">
+        <div className="navigationText">
+          <Link to="/texts">Texts</Link>
+        </div>
+        <div className="navigationAbout">
+          <Link to="/about">About</Link>
+        </div>
+        <div className="navigationAuth">
+          { authUser ?
+            <SignOutButton/> :
+            <Link to="login">Login</Link>
+          }
+        </div>
       </div>
       }
     </AuthUserContext.Consumer>

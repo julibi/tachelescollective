@@ -1,7 +1,19 @@
-.container {
+.grid {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid;
+}
+
+.sidebar {
+  flex-grow: 1;
+  border-right: 1px solid;
+}
+
+.textContainer {
+  flex-grow: 4;
   display:flex;
   flex-direction: column;
-  padding: 1em;
+  padding: 0;
 }
 
 .textWrapper {
@@ -9,15 +21,22 @@
   flex-direction: column;
 }
 
-.textContent {
+.textBlock {
+  padding: 3em;
+  border-bottom: 1px solid;
+}
+
+.lastTextBlock {
+  padding: 3em;
+  border-bottom: 0;
+}
+
+
+.text {
   word-break: break-all;
 }
 
 @media only screen and (min-width: 900px) {
-  .container {
-    padding: 3em;
-  }
-  
   .textWrapper:nth-child(even) {
     padding-left: 50%;
     text-align: right;

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import classNames from 'classnames';
 import { withFirebase } from '../../Components/Firebase/context';
 import { withAuthentication, AuthUserContext } from '../../Components/Session';
 import history from '../../history';
@@ -75,7 +76,9 @@ const Texts = ({ firebase }) => {
   }, [null, countdown, texts]);
 
   return (
-    <div className="container">
+    <div className="grid">
+    <div className="sidebar"></div>
+    <div className="textContainer">
       { countdown && <p>{countdown}</p> }
       <AuthUserContext.Consumer>
         {authUser => {  
@@ -92,13 +95,18 @@ const Texts = ({ firebase }) => {
           }
         }}
       </AuthUserContext.Consumer>
-      {texts.length > 0 && texts.map(text =>
+      {texts.length > 0 && texts.map((text, index) =>
         <div className="textWrapper" key={text.id} onClick={() => history.push(`/texts/${text.id}`)}>
-          {text.title && <h2>{text.title}</h2>}
-          <h3>{text.authorName}</h3>
-          <p className="textContent">{text.mainText}</p>
+          <div className={classNames("textBlock",
+            (index === texts.length - 1) && "lastTextBlock" 
+          )}>
+            {text.title && <h2>{text.title}</h2>}
+            <h3>{text.authorName}</h3>
+            <p className="text">{text.mainText}</p>
+            </div>
         </div>
       )}
+    </div>
     </div>
   );
 }
