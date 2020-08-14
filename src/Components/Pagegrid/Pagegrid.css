@@ -1,0 +1,13 @@
+.grid {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid;
+  border-left: 1px solid;
+  border-right: 1px solid;
+}
+
+.sidebar {
+  min-width: 270px;
+  flex-grow: 1;
+  border-right: 1px solid;
+}

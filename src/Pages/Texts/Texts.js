@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import classNames from 'classnames';
 import { withFirebase } from '../../Components/Firebase/context';
 import { withAuthentication, AuthUserContext } from '../../Components/Session';
 import history from '../../history';
+import Pagegrid from '../../Components/Pagegrid';
 import Timer from '../../Components/Timer'
 import { formatTime } from '../../Components/Timer/Timer'
 
@@ -53,44 +54,43 @@ const Texts = ({ firebase }) => {
   }, [challengedName, myUsername, texts]);
   
   return (
-    <div className="grid">
-    <div className="sidebar"></div>
-    <div className="textContainer">
-      <Timer page={"texts"} className="timer">
-        <AuthUserContext.Consumer>
-          {authUser => {  
-            if(authUser) {
-              setUserId(authUser.uid);
-              return shouldShowReplyButton ? (
-                <button onClick={() => history.push(`/write/${lastTextId}`)}>
-                  {`Come on ${myUsername}, reply!`}
-                </button>) : (<div>{`${challengedName.toUpperCase()} IST DRAN IN`}</div>);
-            } else {
-              return(
-              <div>{`${challengedName} IST DRAN IN`}</div>
-              );
-            }
-          }}
-        </AuthUserContext.Consumer>
-      </Timer>
-      {texts.length > 0 && texts.map((text, index) => {
-        return (
-          <div className="textWrapper" key={text.id} onClick={() => history.push(`/texts/${text.id}`)}>
-            <div className={classNames("textBlock",
-              (index === texts.length - 1) && "lastTextBlock" 
-            )}>
-              {text.title && <h1 className="title">{text.title}</h1>}
-              <p className="text">{text.mainText}</p>
-              <p className="author">
-                {`${text.authorName.toUpperCase()} -
-                ${formatTime(text.publishedAt.server_timestamp)}`}
-              </p>
-              </div>
-          </div>
-        )
-      })}
-    </div>
-    </div>
+    <Pagegrid>
+      <div className="textContainer">
+        <Timer page={"texts"} className="timer">
+          <AuthUserContext.Consumer>
+            {authUser => {  
+              if(authUser) {
+                setUserId(authUser.uid);
+                return shouldShowReplyButton ? (
+                  <button onClick={() => history.push(`/write/${lastTextId}`)}>
+                    {`Come on ${myUsername}, reply!`}
+                  </button>) : (<div>{`${challengedName.toUpperCase()} IST DRAN IN`}</div>);
+              } else {
+                return(
+                <div>{`${challengedName} IST DRAN IN`}</div>
+                );
+              }
+            }}
+          </AuthUserContext.Consumer>
+        </Timer>
+        {texts.length > 0 && texts.map((text, index) => {
+          return (
+            <div className="textWrapper" key={text.id} onClick={() => history.push(`/texts/${text.id}`)}>
+              <div className={classNames("textBlock",
+                (index === texts.length - 1) && "lastTextBlock" 
+              )}>
+                {text.title && <h1 className="title">{text.title}</h1>}
+                <p className="text">{text.mainText}</p>
+                <p className="author">
+                  {`${text.authorName.toUpperCase()} -
+                  ${formatTime(text.publishedAt.server_timestamp)}`}
+                </p>
+                </div>
+            </div>
+          )
+        })}
+      </div>
+    </Pagegrid>
   );
 }
 
