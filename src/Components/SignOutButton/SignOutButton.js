@@ -10,7 +10,7 @@ const SignOutButton = ({ firebase }) => {
   };
   return (
     <button type="button" onClick={handleClick}>
-      Sign Out
+      SIGN OUT
     </button> 
   )
 };

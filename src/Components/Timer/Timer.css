@@ -1,0 +1,19 @@
+.timerContainer {
+  font-family: Chivo;
+  padding: 3em;
+}
+
+.timerText {
+  color: #ffffff;
+}
+
+.timerDivider {
+  height: 200px;
+}
+
+.timerCountdown {
+  color: #DAFD04;
+  font-weight: 700;
+  font-size: 65px;
+  margin: 0;
+}

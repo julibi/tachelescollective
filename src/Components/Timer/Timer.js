@@ -1,0 +1,61 @@
+import React, { useEffect, useState } from 'react';
+import classNames from 'classnames';
+import { withFirebase } from '../Firebase/context';
+
+import './Timer.css';
+
+const toHHMMSS = (secs) => {
+  var hours   = Math.floor(secs / 3600)
+  var minutes = Math.floor(secs / 60) % 60
+  var seconds = secs % 60
+
+  return [hours,minutes,seconds]
+      .map(v => v < 10 ? "0" + v : v)
+      .filter((v,i) => v !== "00" || i > 0)
+      .join(":")
+}
+
+const Timer = ({ firebase, children, page, className }) => {
+  const [texts, setTexts] = useState([]);
+  const [countdown, setCountdown] = useState('');
+  // TODO: refactor, exact same fetching method inside Write.js
+  // const getCurrentUsername = async () => {
+  //   await firebase.users().once('value', snapshot => console.log(snapshot.val().find(item => item.id === myUserId)?.username));
+  // };
+  useEffect(() => {
+    const getTexts = async () => {
+      await firebase.texts().on('value', snapshot => {
+        let formattedTextlist = [];
+        for (let i = 0; i < Object.values(snapshot.val()).length; i++) {
+          formattedTextlist.push({id: Object.keys(snapshot.val())[i], ...Object.values(snapshot.val())[i]})
+        }
+        setTexts(formattedTextlist.reverse());
+      });
+    };
+
+    getTexts();
+  }, [firebase]);
+
+  useEffect(() => {
+    const createdAt = texts[0] ? texts[0].publishedAt.server_timestamp : null;
+    if(createdAt) {
+      const deadline = Math.floor(createdAt / 1000) + 172800;
+      const now = Math.floor(new Date().getTime() / 1000);
+      const currentCount = toHHMMSS(deadline - now);
+
+      setTimeout(() => {
+        setCountdown(currentCount)
+      }, 1000);
+    }
+}, [null, countdown, texts]);
+
+  return(
+    <div className={classNames("timerContainer", className)}>
+      <p className="timerText">{children}</p>
+      { page === "texts" && <div className="timerDivider"></div>}
+      <p className="timerCountdown">{countdown}</p>
+    </div>
+  );
+}
+
+export default withFirebase(Timer);

@@ -12,16 +12,14 @@ const Navigation = () => {
     <AuthUserContext.Consumer>
       { authUser =>
        <div className="navigationGrid">
-        <div className="navigationText">
-          <Link to="/texts">Texts</Link>
-        </div>
+        <div className="navigationText" />
         <div className="navigationAbout">
-          <Link to="/about">About</Link>
+          <Link to="/texts">HOME</Link>
         </div>
         <div className="navigationAuth">
           { authUser ?
             <SignOutButton/> :
-            <Link to="login">Login</Link>
+            <Link to="login">LOGIN</Link>
           }
         </div>
       </div>

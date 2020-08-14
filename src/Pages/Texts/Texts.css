@@ -9,6 +9,12 @@
   border-right: 1px solid;
 }
 
+.timer {
+  margin-left: 50%;
+  text-align: right;
+  border-bottom: 1px solid;
+}
+
 .textContainer {
   flex-grow: 4;
   display:flex;
@@ -31,18 +37,17 @@
   border-bottom: 0;
 }
 
-
 .text {
   word-break: break-all;
 }
 
 @media only screen and (min-width: 900px) {
-  .textWrapper:nth-child(even) {
+  .textWrapper:nth-child(odd) {
     padding-left: 50%;
     text-align: right;
   }
   
-  .textWrapper:nth-child(odd) {
+  .textWrapper:nth-child(even) {
     padding-right: 50%;
     text-align: left;
   }
