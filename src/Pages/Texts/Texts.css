@@ -5,6 +5,7 @@
 }
 
 .sidebar {
+  min-width: 270px;
   flex-grow: 1;
   border-right: 1px solid;
 }
@@ -25,6 +26,11 @@
 .textWrapper {
   display: flex;
   flex-direction: column;
+  font-family: 'Nunito', sans-serif;
+}
+
+.title {
+  color: #ffffff;
 }
 
 .textBlock {

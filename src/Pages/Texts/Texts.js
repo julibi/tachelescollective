@@ -4,6 +4,7 @@ import { withFirebase } from '../../Components/Firebase/context';
 import { withAuthentication, AuthUserContext } from '../../Components/Session';
 import history from '../../history';
 import Timer from '../../Components/Timer'
+import { formatTime } from '../../Components/Timer/Timer'
 
 import './Texts.css';
 
@@ -50,7 +51,7 @@ const Texts = ({ firebase }) => {
       }
     } 
   }, [challengedName, myUsername, texts]);
-
+  
   return (
     <div className="grid">
     <div className="sidebar"></div>
@@ -72,17 +73,22 @@ const Texts = ({ firebase }) => {
           }}
         </AuthUserContext.Consumer>
       </Timer>
-      {texts.length > 0 && texts.map((text, index) =>
-        <div className="textWrapper" key={text.id} onClick={() => history.push(`/texts/${text.id}`)}>
-          <div className={classNames("textBlock",
-            (index === texts.length - 1) && "lastTextBlock" 
-          )}>
-            {text.title && <h2>{text.title}</h2>}
-            <h3>{text.authorName}</h3>
-            <p className="text">{text.mainText}</p>
-            </div>
-        </div>
-      )}
+      {texts.length > 0 && texts.map((text, index) => {
+        return (
+          <div className="textWrapper" key={text.id} onClick={() => history.push(`/texts/${text.id}`)}>
+            <div className={classNames("textBlock",
+              (index === texts.length - 1) && "lastTextBlock" 
+            )}>
+              {text.title && <h1 className="title">{text.title}</h1>}
+              <p className="text">{text.mainText}</p>
+              <p className="author">
+                {`${text.authorName.toUpperCase()} -
+                ${formatTime(text.publishedAt.server_timestamp)}`}
+              </p>
+              </div>
+          </div>
+        )
+      })}
     </div>
     </div>
   );

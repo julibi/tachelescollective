@@ -4,6 +4,19 @@ import { withFirebase } from '../Firebase/context';
 
 import './Timer.css';
 
+export const formatTime = (timestamp) => {
+  const date = new Date(timestamp);
+  const datevalues = [
+    date.getFullYear(),
+    date.getMonth()+1,
+    date.getDate(),
+    date.getHours(),
+    date.getMinutes(),
+    date.getSeconds(),
+  ];
+  return `${datevalues[2]}.${datevalues[1]}.${datevalues[0]} - ${datevalues[3]}:${datevalues[4]}`
+  };
+
 const toHHMMSS = (secs) => {
   var hours   = Math.floor(secs / 3600)
   var minutes = Math.floor(secs / 60) % 60
