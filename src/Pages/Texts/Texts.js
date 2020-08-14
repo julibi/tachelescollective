@@ -61,7 +61,7 @@ const Texts = ({ firebase }) => {
               return shouldShowReplyButton ? (
                 <button onClick={() => history.push(`/write/${lastTextId}`)}>
                   {`Come on ${myUsername}, reply!`}
-                </button>) : (<div>{`${challengedName} IST DRAN IN`}</div>);
+                </button>) : (<div>{`${challengedName.toUpperCase()} IST DRAN IN`}</div>);
             } else {
               return(
               <div>{`${challengedName} IST DRAN IN`}</div>
