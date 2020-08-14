@@ -15,6 +15,8 @@ import Write from './Pages/Write';
 import NoMatch from './Pages/NoMatch';
 import Navigation from './Components/Navigation';
 
+import './App.css';
+
 class App extends Component {
   render() {
     return (
