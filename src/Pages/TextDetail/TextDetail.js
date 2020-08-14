@@ -12,6 +12,7 @@ const TextDetail = ({ firebase, location }) => {
 
   useEffect(() => {
     const textId = location.pathname.slice(6, location.pathname.length);
+    // because textId has the slash in front
     setTextIdWithoutSlash(textId.substr(1, textId.length - 1));
     const getText = async () => {
       await firebase.text(textId).once('value', snapshot => setText(snapshot.val()));

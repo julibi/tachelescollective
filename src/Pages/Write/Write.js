@@ -37,7 +37,7 @@ const Write = ({ firebase, match, location }) => {
       if (mainText.length < MIN_LENGTH) {
         setError(`Your text needs to be at least${MIN_LENGTH} characters.`);
       } else if(!error.length) {
-        console.log(challenged);
+
         try {
           await firebase.texts().push({
             mainText,

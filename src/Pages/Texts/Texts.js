@@ -5,6 +5,16 @@ import history from '../../history';
 
 import './Texts.css';
 
+const toHHMMSS = (secs) => {
+  var hours   = Math.floor(secs / 3600)
+  var minutes = Math.floor(secs / 60) % 60
+  var seconds = secs % 60
+
+  return [hours,minutes,seconds]
+      .map(v => v < 10 ? "0" + v : v)
+      .filter((v,i) => v !== "00" || i > 0)
+      .join(":")
+}
 
 const Texts = ({ firebase }) => {
   const [texts, setTexts] = useState([]);
@@ -12,8 +22,12 @@ const Texts = ({ firebase }) => {
   const [myUsername, setMyUsername] = useState(null);
   const [lastTextId, setLastTextId] = useState('');
   const [challengedName, setChallengedName] = useState('');
+  const [countdown, setCountdown] = useState('');
   const [shouldShowReplyButton, setShouldShowReplyButton] = useState(false);
-  
+  // const addDays = (date, days) => {
+  //   var result = new Date(date) + 48*60*60;
+  //   return result;
+  // }
   useEffect(() => {
     const getTexts = async () => {
       await firebase.texts().on('value', snapshot => {
@@ -40,18 +54,29 @@ const Texts = ({ firebase }) => {
     if (texts.length) {
       setLastTextId(texts[0].id);
       setChallengedName(texts[0].challenged);
-      
+
       if (texts[0].challenged === myUsername) {
-        console.log(texts[0]);
-        console.log(texts[0].challenged);
-        console.log(myUsername);
         setShouldShowReplyButton(true)
       }
     } 
   }, [challengedName, myUsername, texts]);
 
+  useEffect(() => {
+      const createdAt = texts[0] ? texts[0].publishedAt.server_timestamp : null;
+      if(createdAt) {
+        const deadline = Math.floor(createdAt / 1000) + 172800;
+        const now = Math.floor(new Date().getTime() / 1000);
+        const currentCount = toHHMMSS(deadline - now);
+
+        setTimeout(() => {
+          setCountdown(currentCount)
+        }, 1000);
+      }
+  }, [null, countdown, texts]);
+
   return (
     <div className="container">
+      { countdown && <p>{countdown}</p> }
       <AuthUserContext.Consumer>
         {authUser => {  
           if(authUser) {
