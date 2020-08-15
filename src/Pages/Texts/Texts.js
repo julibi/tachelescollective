@@ -69,7 +69,7 @@ const Texts = ({ firebase }) => {
               <div className={classNames("textBlock",
                 (index === texts.length - 1) && "lastTextBlock" 
               )}>
-                {text.title && <h1 className="title">{text.title}</h1>}
+                {text.title && <h1 className="title">{`${text.title.toUpperCase()}`}</h1>}
                 <p className="text">{text.mainText}</p>
                 <p className="author">
                   {`${text.authorName.toUpperCase()} -

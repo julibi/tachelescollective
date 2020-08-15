@@ -4,8 +4,21 @@
   padding: 1em;
 }
 
+.textContent {
+  hyphens: auto;
+  text-align: justify;
+}
+
+.textTitle {
+  font-size: 50px;
+}
+
 @media only screen and (min-width: 900px) {
   .container {
     padding: 3em;
   }
+}
+
+.testo {
+  color: #DAFD04;
 }
