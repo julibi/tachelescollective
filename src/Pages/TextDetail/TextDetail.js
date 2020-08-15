@@ -48,17 +48,17 @@ const TextDetail = ({ firebase, location }) => {
 
   return (
     <Pagegrid>
-    <div className="container">
-      <Timer />
-      <button onClick={() => history.push('/texts/')}>
-        'Go Back'
-      </button>
-      <div key={text.id}>
-        {text.title && <h2>{text.title}</h2>}
-        <h3>{text.authorName}</h3>
-        <p className="textContent">{text.mainText}</p>
+      <div className="container">
+        <Timer page={"textDetail"} lastText={text} />
+        <div key={text.id}>
+          {text.title && <h2>{text.title}</h2>}
+          <h3>{text.authorName}</h3>
+          <p className="textContent">{text.mainText}</p>
+        </div>
       </div>
-    </div> 
+      <button onClick={() => history.push('/texts/')}>
+        {'Go Back'}
+      </button>
     </Pagegrid>
   );
 }

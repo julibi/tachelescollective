@@ -98,14 +98,16 @@ const Timer = ({ firebase, lastText, page, className }) => {
         { page !== "texts" &&
           <div className="smallTimer">
             {countdown &&
-              <p className="timerText">
+              <Fragment>
                 {shouldShowReplyButton ? 
                   <button onClick={() => history.push(`/write/${lastTextId}`)}>{`SCHREIB WAS, ${myUsername}!`}</button> :
-                  <Fragment>{`${challengedName.toUpperCase()} IST DRAN IN`}</Fragment>
+                  <p className="smallTimerText">{`${challengedName.toUpperCase()} IST DRAN IN`}</p>
                 }
-              </p>
+              </Fragment>
             }
-            {countdown && <p className="timerCountdown">{countdown}</p>}
+            {!countdown && <Skeleton className={"smallTimerTextSkeleton"} />}
+            {countdown && <p className="smallTimerCountdown">{countdown}</p>}
+            {!countdown && <Skeleton className={"smallTimerCountdownSkeleton"} />}
           </div>
         }
       </div>

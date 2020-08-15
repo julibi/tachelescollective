@@ -6,7 +6,7 @@
   flex-direction: column;
 }
 
-.timerText {
+.timerText, .smallTimerText {
   color: #ffffff;
 }
 
@@ -25,13 +25,44 @@
   font-size: 65px;
   margin: 0;
 }
-
 .timerCountdownSkeleton {
   height: 77px;
   width: 60%;
+}
+
+.timerCountdownSkeleton, .smallTimerCountdownSkeleton {
   background: linear-gradient(-90deg, #dafd04 0%, #d8fb05 50%, #e2fd04 100%);
   background-size: 400% 400%;
   animation: pulse 1.2s ease-in-out infinite;
+}
+
+.smallTimer {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.smallTimerText {
+  margin-bottom: 0;
+  margin-right: 16px;
+}
+
+.smallTimerCountdown {
+  font-weight: 400;
+  font-size: 40px;
+  margin: 0 auto;
+  color: #DAFD04;
+}
+
+.smallTimerTextSkeleton {
+  width: 126px;
+  height: 19px;
+  margin-right: 16px;
+}
+
+.smallTimerCountdownSkeleton {
+  width: 167px;
+  height: 48px;
 }
 
 @keyframes pulse {
