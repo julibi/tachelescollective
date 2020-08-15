@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { withFirebase } from '../Firebase/context';
+import Skeleton from '../../Components/Skeleton';
 
 import './Timer.css';
 
@@ -30,7 +31,7 @@ const toHHMMSS = (secs) => {
 
 const Timer = ({ firebase, children, page, className }) => {
   const [texts, setTexts] = useState([]);
-  const [countdown, setCountdown] = useState('');
+  const [countdown, setCountdown] = useState(null);
   // TODO: refactor, exact same fetching method inside Write.js
   // const getCurrentUsername = async () => {
   //   await firebase.users().once('value', snapshot => console.log(snapshot.val().find(item => item.id === myUserId)?.username));
@@ -46,7 +47,7 @@ const Timer = ({ firebase, children, page, className }) => {
       });
     };
 
-    getTexts();
+    // getTexts();
   }, [firebase]);
 
   useEffect(() => {
@@ -64,9 +65,11 @@ const Timer = ({ firebase, children, page, className }) => {
 
   return(
     <div className={classNames("timerContainer", className)}>
-      <p className="timerText">{children}</p>
-      { page === "texts" && <div className="timerDivider"></div>}
-      <p className="timerCountdown">{countdown}</p>
+      {countdown && <p className="timerText">{children}</p>}
+      {!countdown && <Skeleton className={"timerTextSkeleton"} />}
+      { page === "texts" && <div className="timerDivider" />}
+      {countdown && <p className="timerCountdown">{countdown}</p>}
+      {!countdown && <Skeleton className={"timerCountdownSkeleton"} />}
     </div>
   );
 }

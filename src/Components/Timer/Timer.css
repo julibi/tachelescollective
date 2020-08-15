@@ -1,10 +1,18 @@
 .timerContainer {
   font-family: 'Chivo', sans-serif;
   padding: 3em;
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
 }
 
 .timerText {
   color: #ffffff;
+}
+
+.timerTextSkeleton {
+  height: 18px;
+  width: 30%;
 }
 
 .timerDivider {
@@ -16,4 +24,21 @@
   font-weight: 700;
   font-size: 65px;
   margin: 0;
+}
+
+.timerCountdownSkeleton {
+  height: 77px;
+  width: 60%;
+  background: linear-gradient(-90deg, #dafd04 0%, #d8fb05 50%, #e2fd04 100%);
+  background-size: 400% 400%;
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    background-position: 0% 0%
+  }
+  100% {
+    background-position: -135% 0%
+  }
 }

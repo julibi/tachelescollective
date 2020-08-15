@@ -5,6 +5,7 @@ import { withAuthentication, AuthUserContext } from '../../Components/Session';
 import history from '../../history';
 import Pagegrid from '../../Components/Pagegrid';
 import Timer from '../../Components/Timer'
+import Skeleton from '../../Components/Skeleton'
 import { formatTime } from '../../Components/Timer/Timer'
 
 import './Texts.css';
@@ -39,7 +40,7 @@ const Texts = ({ firebase }) => {
       await firebase.users().once('value', snapshot => setMyUsername(snapshot.val().find(user => user.id === myUserId)?.username));
     };
     getCurrentUsername();
-    getTexts();
+    // getTexts();
   }, [firebase, myUserId, myUsername])
 
   useEffect(() => {
@@ -73,6 +74,31 @@ const Texts = ({ firebase }) => {
             }}
           </AuthUserContext.Consumer>
         </Timer>
+        {texts.length === 0 &&
+          <Fragment>
+            <div className="textWrapper">
+              <div className="textBlock">
+                <Skeleton className={"skeletonTitle"} />
+                <Skeleton className={"skeletonText"} />
+                <Skeleton className={"skeletonMeta"} />
+              </div>
+            </div>
+            <div className="textWrapper">
+              <div className="textBlock">
+                <Skeleton className={"skeletonTitle"} />
+                <Skeleton className={"skeletonText"} />
+                <Skeleton className={"skeletonMeta"} />
+              </div>
+            </div>
+            <div className="textWrapper">
+              <div className={classNames("textBlock", "lastTextBlock")}>
+                <Skeleton className={"skeletonTitle"} />
+                <Skeleton className={"skeletonText"} />
+                <Skeleton className={"skeletonMeta"} />
+              </div>
+            </div>
+          </Fragment>
+        }
         {texts.length > 0 && texts.map((text, index) => {
           return (
             <div className="textWrapper" key={text.id} onClick={() => history.push(`/texts/${text.id}`)}>
