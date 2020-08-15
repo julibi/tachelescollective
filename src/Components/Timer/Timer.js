@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import classNames from 'classnames';
-import { withFirebase } from '../Firebase/context';
+import { withFirebase } from '../../Components/Firebase/context';
 import Skeleton from '../../Components/Skeleton';
+import { AuthUserContext } from '../../Components/Session';
+import history from '../../history';
 
 import './Timer.css';
 
@@ -29,29 +31,23 @@ const toHHMMSS = (secs) => {
       .join(":")
 }
 
-const Timer = ({ firebase, children, page, className }) => {
-  const [texts, setTexts] = useState([]);
+const Timer = ({ firebase, lastText, page, className }) => {
+  const [text, setText] = useState(lastText);
+  const [myUserId, setUserId] = useState(null);
+  const [myUsername, setMyUsername] = useState(null);
   const [countdown, setCountdown] = useState(null);
-  // TODO: refactor, exact same fetching method inside Write.js
-  // const getCurrentUsername = async () => {
-  //   await firebase.users().once('value', snapshot => console.log(snapshot.val().find(item => item.id === myUserId)?.username));
-  // };
+  const [lastTextId, setLastTextId] = useState('');
+  const [challengedName, setChallengedName] = useState('');
+  const [shouldShowReplyButton, setShouldShowReplyButton] = useState(false);
+
   useEffect(() => {
-    const getTexts = async () => {
-      await firebase.texts().on('value', snapshot => {
-        let formattedTextlist = [];
-        for (let i = 0; i < Object.values(snapshot.val()).length; i++) {
-          formattedTextlist.push({id: Object.keys(snapshot.val())[i], ...Object.values(snapshot.val())[i]})
-        }
-        setTexts(formattedTextlist.reverse());
-      });
+    setText(lastText);
+    const createdAt = text ? text.publishedAt.server_timestamp : null;
+    const getCurrentUsername = async () => {
+      await firebase.users().once('value', snapshot => setMyUsername(snapshot.val().find(user => user.id === myUserId)?.username));
     };
+    getCurrentUsername();
 
-    // getTexts();
-  }, [firebase]);
-
-  useEffect(() => {
-    const createdAt = texts[0] ? texts[0].publishedAt.server_timestamp : null;
     if(createdAt) {
       const deadline = Math.floor(createdAt / 1000) + 172800;
       const now = Math.floor(new Date().getTime() / 1000);
@@ -61,16 +57,58 @@ const Timer = ({ firebase, children, page, className }) => {
         setCountdown(currentCount)
       }, 1000);
     }
-}, [null, countdown, texts]);
+
+    if (text) {
+      setLastTextId(text.id);
+      setChallengedName(text.challenged);
+
+      if (text.challenged === myUsername) {
+        setShouldShowReplyButton(true)
+      }
+    } 
+  }, [null, firebase, countdown, text, lastText]);
 
   return(
-    <div className={classNames("timerContainer", className)}>
-      {countdown && <p className="timerText">{children}</p>}
-      {!countdown && <Skeleton className={"timerTextSkeleton"} />}
-      { page === "texts" && <div className="timerDivider" />}
-      {countdown && <p className="timerCountdown">{countdown}</p>}
-      {!countdown && <Skeleton className={"timerCountdownSkeleton"} />}
-    </div>
+      <div className={classNames("timerContainer", className)}>
+        <AuthUserContext.Consumer>
+          {authUser => {  
+            if(authUser) {
+              setUserId(authUser.uid);
+            }
+          }}
+        </AuthUserContext.Consumer>
+        { page === "texts" &&
+          <Fragment>
+            {countdown && <div className="timerText">
+              {shouldShowReplyButton ?
+                <button onClick={() => history.push(`/write/${lastTextId}`)}>
+                  {`SCHREIB WAS, ${myUsername}!`}
+                </button>:
+                <Fragment>
+                {`${challengedName.toUpperCase()} IST DRAN IN`}
+                </Fragment>
+              }
+            </div>}
+            {!countdown && <Skeleton className={"timerTextSkeleton"} />}
+            { page === "texts" && <div className="timerDivider" />}
+            {countdown && <p className="timerCountdown">{countdown}</p>}
+            {!countdown && <Skeleton className={"timerCountdownSkeleton"} />}
+          </Fragment>
+        }
+        { page !== "texts" &&
+          <div className="smallTimer">
+            {countdown &&
+              <p className="timerText">
+                {shouldShowReplyButton ? 
+                  <button onClick={() => history.push(`/write/${lastTextId}`)}>{`SCHREIB WAS, ${myUsername}!`}</button> :
+                  <Fragment>{`${challengedName.toUpperCase()} IST DRAN IN`}</Fragment>
+                }
+              </p>
+            }
+            {countdown && <p className="timerCountdown">{countdown}</p>}
+          </div>
+        }
+      </div>
   );
 }
 

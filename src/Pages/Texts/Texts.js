@@ -14,12 +14,6 @@ import './Texts.css';
 
 const Texts = ({ firebase }) => {
   const [texts, setTexts] = useState([]);
-  const [myUserId, setUserId] = useState(null);
-  const [myUsername, setMyUsername] = useState(null);
-  const [lastTextId, setLastTextId] = useState('');
-  const [challengedName, setChallengedName] = useState('');
-  const [countdown, setCountdown] = useState('');
-  const [shouldShowReplyButton, setShouldShowReplyButton] = useState(false);
 
   useEffect(() => {
     const getTexts = async () => {
@@ -36,44 +30,14 @@ const Texts = ({ firebase }) => {
     // const getCurrentUsername = async () => {
     //   await firebase.users().once('value', snapshot => console.log(snapshot.val().find(item => item.id === myUserId)?.username));
     // };
-    const getCurrentUsername = async () => {
-      await firebase.users().once('value', snapshot => setMyUsername(snapshot.val().find(user => user.id === myUserId)?.username));
-    };
-    getCurrentUsername();
-    // getTexts();
-  }, [firebase, myUserId, myUsername])
 
-  useEffect(() => {
-    if (texts.length) {
-      setLastTextId(texts[0].id);
-      setChallengedName(texts[0].challenged);
-
-      if (texts[0].challenged === myUsername) {
-        setShouldShowReplyButton(true)
-      }
-    } 
-  }, [challengedName, myUsername, texts]);
+    getTexts();
+  }, [firebase])
   
   return (
     <Pagegrid>
       <div className="textContainer">
-        <Timer page={"texts"} className="timer">
-          <AuthUserContext.Consumer>
-            {authUser => {  
-              if(authUser) {
-                setUserId(authUser.uid);
-                return shouldShowReplyButton ? (
-                  <button onClick={() => history.push(`/write/${lastTextId}`)}>
-                    {`Come on ${myUsername}, reply!`}
-                  </button>) : (<div>{`${challengedName.toUpperCase()} IST DRAN IN`}</div>);
-              } else {
-                return(
-                <div>{`${challengedName} IST DRAN IN`}</div>
-                );
-              }
-            }}
-          </AuthUserContext.Consumer>
-        </Timer>
+        <Timer page={"texts"} className="timer" lastText={texts[0]} />
         {texts.length === 0 &&
           <Fragment>
             <div className="textWrapper">
