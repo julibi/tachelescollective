@@ -32,19 +32,19 @@ const toHHMMSS = (secs) => {
 }
 
 const Timer = ({ firebase, lastText, page, className }) => {
-  const [text, setText] = useState(lastText);
   const [myUserId, setUserId] = useState(null);
   const [myUsername, setMyUsername] = useState(null);
   const [countdown, setCountdown] = useState(null);
   const [lastTextId, setLastTextId] = useState('');
   const [challengedName, setChallengedName] = useState('');
   const [shouldShowReplyButton, setShouldShowReplyButton] = useState(false);
+  const [timeValid, setTimeValid] = useState(true);
+  const [isUrgent, setIsUrgent] = useState(false);
 
   useEffect(() => {
-    setText(lastText);
-    const createdAt = text ? text.publishedAt.server_timestamp : null;
+    const createdAt = lastText ? lastText.publishedAt.server_timestamp : null;
     const getCurrentUsername = async () => {
-      await firebase.users().once('value', snapshot => setMyUsername(snapshot.val().find(user => user.id === myUserId)?.username));
+      await firebase.users().on('value', snapshot => setMyUsername(snapshot.val().find(user => user.id === myUserId)?.username));
     };
     getCurrentUsername();
 
@@ -53,20 +53,51 @@ const Timer = ({ firebase, lastText, page, className }) => {
       const now = Math.floor(new Date().getTime() / 1000);
       const currentCount = toHHMMSS(deadline - now);
 
-      setTimeout(() => {
-        setCountdown(currentCount)
-      }, 1000);
-    }
+      if (deadline > now) {
+        if ((deadline - now) <= 7200) {
+          setIsUrgent(true);
+        }
+        setTimeout(() => {
+          setCountdown(currentCount);
+        }, 1000);
+      } else {
+        setTimeValid(false);
+        setCountdown('ZEIT IST ABGELAUFEN');
+      }
+    }    
 
-    if (text) {
-      setLastTextId(text.id);
-      setChallengedName(text.challenged);
-
-      if (text.challenged === myUsername) {
-        setShouldShowReplyButton(true)
+    if (lastText) {
+      setLastTextId(lastText.id);
+      setChallengedName(lastText.challenged);
+      if (lastText.challenged === myUsername) {
+        setShouldShowReplyButton(true);
+      } else {
+        setShouldShowReplyButton(false);
       }
     } 
-  }, [null, firebase, countdown, text, lastText]);
+  }, [null, firebase, lastText, myUserId, lastText, myUsername, countdown]);
+
+  const renderRequestVersions = () => {
+    if (shouldShowReplyButton && timeValid && myUsername) {
+      return (
+        <button onClick={() => history.push(`/write/${lastTextId}`)}>
+          {`SCHREIB WAS, ${myUsername.toUpperCase()}!`}
+        </button>
+      );
+    } else if (!shouldShowReplyButton && timeValid) {
+      return (
+        <p className="smallTimerText">{`${challengedName.toUpperCase()} IST DRAN IN`}</p>
+      );
+    } else if (shouldShowReplyButton && !timeValid) {
+      return (
+        <p>{`${challengedName.toUpperCase()}, ZU SPÄT! DEINE`}</p>
+      );
+    } else if (!shouldShowReplyButton && !timeValid) {
+      return (
+        <p>{`${challengedName.toUpperCase()}S`}</p>
+      );
+    }
+  };
 
   return(
       <div className={classNames("timerContainer", className)}>
@@ -74,41 +105,37 @@ const Timer = ({ firebase, lastText, page, className }) => {
           {authUser => {  
             if(authUser) {
               setUserId(authUser.uid);
+            } else {
+              setUserId(null);
             }
           }}
         </AuthUserContext.Consumer>
         { page === "texts" &&
           <Fragment>
-            {countdown && <div className="timerText">
-              {shouldShowReplyButton ?
-                <button onClick={() => history.push(`/write/${lastTextId}`)}>
-                  {`SCHREIB WAS, ${myUsername}!`}
-                </button>:
-                <Fragment>
-                {`${challengedName.toUpperCase()} IST DRAN IN`}
-                </Fragment>
-              }
-            </div>}
+            {countdown &&
+              <div className="timerText">
+                {renderRequestVersions()}
+              </div>
+            }
             {!countdown && <Skeleton className={"timerTextSkeleton"} />}
             { page === "texts" && <div className="timerDivider" />}
-            {countdown && <p className="timerCountdown">{countdown}</p>}
+            {(countdown && timeValid) && <p className={classNames("timerCountdown", isUrgent && "timerPink")}>{countdown}</p>}
+            {(countdown && !timeValid) && <p className="timerCountdown">{countdown}</p>}
             {!countdown && <Skeleton className={"timerCountdownSkeleton"} />}
           </Fragment>
         }
         { page !== "texts" &&
-          <div className="smallTimer">
-            {countdown &&
-              <Fragment>
-                {shouldShowReplyButton ? 
-                  <button onClick={() => history.push(`/write/${lastTextId}`)}>{`SCHREIB WAS, ${myUsername}!`}</button> :
-                  <p className="smallTimerText">{`${challengedName.toUpperCase()} IST DRAN IN`}</p>
-                }
-              </Fragment>
-            }
+        <Fragment>
+           {countdown &&
+            <div className="smallTimer">
+              {renderRequestVersions()}
+            </div>
+          }
             {!countdown && <Skeleton className={"smallTimerTextSkeleton"} />}
-            {countdown && <p className="smallTimerCountdown">{countdown}</p>}
+            {(countdown && timeValid) && <p className={classNames("smallTimerCountdown", isUrgent && "timerPink")}>{countdown}</p>}
+            {(countdown && !timeValid) && <p className={"smallTimerCountdown"}>{countdown}</p>}
             {!countdown && <Skeleton className={"smallTimerCountdownSkeleton"} />}
-          </div>
+        </Fragment>
         }
       </div>
   );

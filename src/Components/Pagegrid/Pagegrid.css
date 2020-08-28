@@ -7,12 +7,27 @@
 }
 
 .sidebar {
-  min-width: 270px;
+  min-width: 350px;
   flex-grow: 1;
   border-right: 1px solid;
+  padding: 2em;
 }
 
 .content {
   flex-grow: 4;
   height: 100%;
+}
+
+.logo {
+  font-family: 'Cousine', monospace;
+  font-size: 160px;
+  color: #ffffff;
+}
+
+.third, .fifth {
+  text-align: right;
+}
+
+.first, .neon {
+  color: #DAFD04;
 }

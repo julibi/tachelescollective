@@ -19,7 +19,7 @@ const Navigation = () => {
         <div className="navigationAuth">
           { authUser ?
             <SignOutButton className="signoutButton" /> :
-            <Link to="login">LOGIN</Link>
+            <Link to="/login">LOGIN</Link>
           }
         </div>
       </div>

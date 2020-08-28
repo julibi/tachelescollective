@@ -6,6 +6,7 @@ import history from '../../history';
 const SignOutButton = ({ firebase, className }) => {
   const handleClick = async() => {
     await firebase.doSignOut();
+
     history.push('/texts');
   };
   return (

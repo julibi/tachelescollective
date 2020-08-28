@@ -25,6 +25,11 @@
   font-size: 65px;
   margin: 0;
 }
+
+.timerPink {
+  color: #f5054f
+}
+
 .timerCountdownSkeleton {
   height: 77px;
   width: 60%;
@@ -50,7 +55,7 @@
 .smallTimerCountdown {
   font-weight: 400;
   font-size: 40px;
-  margin: 0 auto;
+  margin: 0;
   color: #DAFD04;
 }
 

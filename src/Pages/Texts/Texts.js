@@ -10,8 +10,6 @@ import { formatTime } from '../../Components/Timer/Timer'
 
 import './Texts.css';
 
-// todo: modularize sidebar and nav, so that other componens just fit into the given space automatically
-
 const Texts = ({ firebase }) => {
   const [texts, setTexts] = useState([]);
 
@@ -38,6 +36,7 @@ const Texts = ({ firebase }) => {
     <Pagegrid>
       <div className="textContainer">
         <Timer page={"texts"} className="timer" lastText={texts[0]} />
+        
         {texts.length === 0 &&
           <Fragment>
             <div className="textWrapper">
