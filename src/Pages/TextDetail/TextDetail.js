@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../../Components/Firebase/context';
 import { withAuthentication, AuthUserContext } from '../../Components/Session';
-import Pagegrid from '../../Components/Pagegrid';
 import Timer from '../../Components/Timer';
 import history from '../../history';
 import './TextDetail.css';
@@ -56,7 +55,7 @@ const TextDetail = ({ firebase, location }) => {
   }
 
   return (
-    <Pagegrid>
+    <Fragment>
       <div className="container">
         <Timer page={"textDetail"} lastText={text} />
         <div key={text.id} className="textContent">
@@ -71,7 +70,7 @@ const TextDetail = ({ firebase, location }) => {
       <button onClick={() => history.push('/texts/')}>
         {'Go Back'}
       </button>
-    </Pagegrid>
+    </Fragment>
   );
 }
 
