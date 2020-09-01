@@ -1,14 +1,23 @@
 import React from "react";
 import Autosuggest from 'react-autosuggest';
 
-class AutoSuggest extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      value: '',
-      suggestions: this.props ? this.props.values : []
-    };
-  }
+interface AutoSuggestProps {
+  className: string;
+  values?: Array<string>;
+  placeholder?: string;
+  onChange: (event: any) => void;
+}
+
+interface AutoSuggestState {
+  value: string;
+  suggestions?: Array<string>;
+}
+
+class AutoSuggest extends React.Component<AutoSuggestProps, AutoSuggestState> {
+  state = {
+    value: '',
+    suggestions: this.props.values ? this.props.values : []
+  };
 
   onChange = (event, { newValue }) => {
     this.props.onChange(newValue);
@@ -35,7 +44,7 @@ class AutoSuggest extends React.Component {
   getSuggestions = (value, suggestions) => {
     const inputValue = value.trim().toLowerCase();
     const inputLength = inputValue.length;
-  
+
     return inputLength === 0 ? [] : suggestions.filter(user =>
       user.username.toLowerCase().slice(0, inputLength) === inputValue
     );
