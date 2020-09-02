@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../../Components/Firebase/context';
-import { withAuthentication, AuthUserContext } from '../../Components/Session';
+import { WithAuthentication, AuthUserContext } from '../../Components/Session';
 import Timer from '../../Components/Timer';
 import history from '../../history';
 import './TextDetail.css';
@@ -74,4 +74,4 @@ const TextDetail = ({ firebase, location }) => {
   );
 }
 
-export default withRouter(withAuthentication(withFirebase(TextDetail)));
+export default withRouter(WithAuthentication(withFirebase(TextDetail)));

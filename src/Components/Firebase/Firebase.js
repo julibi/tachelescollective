@@ -15,6 +15,10 @@ import firebaseConfig from '../../apiKeys';
 // const config =
 //   process.env.NODE_ENV === 'production' ? prodConfig : devConfig;
 
+//TODO:
+// use hooks
+// turn it into Firebase.tsx
+
 class Firebase {
   constructor() {
     app.initializeApp(firebaseConfig);

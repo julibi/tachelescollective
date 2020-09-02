@@ -3,6 +3,10 @@ import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../Firebase/context';
 import history from '../../history';
  
+// props types
+// handleClick
+// history??
+
 const SignOutButton = ({ firebase, className }) => {
   const handleClick = async() => {
     await firebase.doSignOut();

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import classNames from 'classnames';
 import { withFirebase } from '../../Components/Firebase/context';
-import { withAuthentication, AuthUserContext } from '../../Components/Session';
+import { WithAuthentication, AuthUserContext } from '../../Components/Session';
 import history from '../../history';
 import Timer from '../../Components/Timer'
 import Skeleton from '../../Components/Skeleton'
@@ -80,4 +80,4 @@ const Texts = ({ firebase }) => {
   );
 }
 
-export default withAuthentication(withFirebase(Texts));
+export default WithAuthentication(withFirebase(Texts));

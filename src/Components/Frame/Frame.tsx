@@ -4,8 +4,12 @@ import Navigation from '../Navigation';
 
 import './Frame.css';
 
-const Frame = ({children}) => {
-  return(
+interface FrameProps {
+  children: React.ReactNode;
+}
+
+const Frame = ({ children }: FrameProps) => {
+  return (
     <Fragment>
       <Navigation />
       <div className="grid">
