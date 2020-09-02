@@ -1,8 +1,8 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import classNames from 'classnames';
-import { withFirebase } from '../../Components/Firebase/context';
-import Skeleton from '../../Components/Skeleton';
-import { AuthUserContext } from '../../Components/Session';
+import { withFirebase } from '../Firebase/context';
+import Skeleton from '../Skeleton';
+import { AuthUserContext } from '../Session';
 import history from '../../history';
 
 import './Timer.css';
@@ -11,24 +11,24 @@ export const formatTime = (timestamp) => {
   const date = new Date(timestamp);
   const datevalues = [
     date.getFullYear(),
-    date.getMonth()+1,
+    date.getMonth() + 1,
     date.getDate(),
     date.getHours(),
     date.getMinutes(),
     date.getSeconds(),
   ];
   return `${datevalues[2]}.${datevalues[1]}.${datevalues[0]} - ${datevalues[3]}:${datevalues[4]}`
-  };
+};
 
 const toHHMMSS = (secs) => {
-  var hours   = Math.floor(secs / 3600)
+  var hours = Math.floor(secs / 3600)
   var minutes = Math.floor(secs / 60) % 60
   var seconds = secs % 60
 
-  return [hours,minutes,seconds]
-      .map(v => v < 10 ? "0" + v : v)
-      .filter((v,i) => v !== "00" || i > 0)
-      .join(":")
+  return [hours, minutes, seconds]
+    .map(v => v < 10 ? "0" + v : v)
+    .filter((v, i) => v !== "00" || i > 0)
+    .join(":")
 }
 
 const Timer = ({ firebase, lastText, page, className }) => {
@@ -48,7 +48,7 @@ const Timer = ({ firebase, lastText, page, className }) => {
     };
     getCurrentUsername();
 
-    if(createdAt) {
+    if (createdAt) {
       const deadline = Math.floor(createdAt / 1000) + 172800;
       const now = Math.floor(new Date().getTime() / 1000);
       const currentCount = toHHMMSS(deadline - now);
@@ -64,7 +64,7 @@ const Timer = ({ firebase, lastText, page, className }) => {
         setTimeValid(false);
         setCountdown('ZEIT IST ABGELAUFEN');
       }
-    }    
+    }
 
     if (lastText) {
       setLastTextId(lastText.id);
@@ -74,7 +74,7 @@ const Timer = ({ firebase, lastText, page, className }) => {
       } else {
         setShouldShowReplyButton(false);
       }
-    } 
+    }
   }, [null, firebase, lastText, myUserId, lastText, myUsername, countdown]);
 
   const renderRequestVersions = () => {
@@ -99,45 +99,45 @@ const Timer = ({ firebase, lastText, page, className }) => {
     }
   };
 
-  return(
-      <div className={classNames("timerContainer", className)}>
-        <AuthUserContext.Consumer>
-          {authUser => {  
-            if(authUser) {
-              setUserId(authUser.uid);
-            } else {
-              setUserId(null);
-            }
-          }}
-        </AuthUserContext.Consumer>
-        { page === "texts" &&
-          <Fragment>
-            {countdown &&
-              <div className="timerText">
-                {renderRequestVersions()}
-              </div>
-            }
-            {!countdown && <Skeleton className={"timerTextSkeleton"} />}
-            { page === "texts" && <div className="timerDivider" />}
-            {(countdown && timeValid) && <p className={classNames("timerCountdown", isUrgent && "timerPink")}>{countdown}</p>}
-            {(countdown && !timeValid) && <p className="timerCountdown">{countdown}</p>}
-            {!countdown && <Skeleton className={"timerCountdownSkeleton"} />}
-          </Fragment>
-        }
-        { page !== "texts" &&
+  return (
+    <div className={classNames("timerContainer", className)}>
+      <AuthUserContext.Consumer>
+        {authUser => {
+          if (authUser) {
+            setUserId(authUser.uid);
+          } else {
+            setUserId(null);
+          }
+        }}
+      </AuthUserContext.Consumer>
+      {page === "texts" &&
         <Fragment>
-           {countdown &&
+          {countdown &&
+            <div className="timerText">
+              {renderRequestVersions()}
+            </div>
+          }
+          {!countdown && <Skeleton className={"timerTextSkeleton"} />}
+          {page === "texts" && <div className="timerDivider" />}
+          {(countdown && timeValid) && <p className={classNames("timerCountdown", isUrgent && "timerPink")}>{countdown}</p>}
+          {(countdown && !timeValid) && <p className="timerCountdown">{countdown}</p>}
+          {!countdown && <Skeleton className={"timerCountdownSkeleton"} />}
+        </Fragment>
+      }
+      {page !== "texts" &&
+        <Fragment>
+          {countdown &&
             <div className="smallTimer">
               {renderRequestVersions()}
             </div>
           }
-            {!countdown && <Skeleton className={"smallTimerTextSkeleton"} />}
-            {(countdown && timeValid) && <p className={classNames("smallTimerCountdown", isUrgent && "timerPink")}>{countdown}</p>}
-            {(countdown && !timeValid) && <p className={"smallTimerCountdown"}>{countdown}</p>}
-            {!countdown && <Skeleton className={"smallTimerCountdownSkeleton"} />}
+          {!countdown && <Skeleton className={"smallTimerTextSkeleton"} />}
+          {(countdown && timeValid) && <p className={classNames("smallTimerCountdown", isUrgent && "timerPink")}>{countdown}</p>}
+          {(countdown && !timeValid) && <p className={"smallTimerCountdown"}>{countdown}</p>}
+          {!countdown && <Skeleton className={"smallTimerCountdownSkeleton"} />}
         </Fragment>
-        }
-      </div>
+      }
+    </div>
   );
 }
 

@@ -1,19 +1,19 @@
 import React from "react";
 import Autosuggest from 'react-autosuggest';
 
-interface AutoSuggestProps {
-  className: string;
-  values?: Array<string>;
-  placeholder?: string;
-  onChange: (event: any) => void;
-}
+// interface AutoSuggestProps {
+//   className: string;
+//   values?: Array<string>;
+//   placeholder?: string;
+//   onChange: (event: any) => void;
+// }
 
-interface AutoSuggestState {
-  value: string;
-  suggestions?: Array<string>;
-}
+// interface AutoSuggestState {
+//   value: string;
+//   suggestions?: Array<string>;
+// }
 
-class AutoSuggest extends React.Component<AutoSuggestProps, AutoSuggestState> {
+class AutoSuggest extends React.Component {
   state = {
     value: '',
     suggestions: this.props.values ? this.props.values : []

@@ -11,28 +11,28 @@ import firebaseConfig from '../../apiKeys';
 //   storageBucket: process.env.REACT_APP_PROD_STORAGE_BUCKET,
 //   messagingSenderId: process.env.REACT_APP_PROD_MESSAGING_SENDER_ID,
 // };
- 
+
 // const config =
 //   process.env.NODE_ENV === 'production' ? prodConfig : devConfig;
 
 class Firebase {
   constructor() {
     app.initializeApp(firebaseConfig);
-    
+
     this.auth = app.auth();
     this.db = app.database();
   }
 
   doSignInWithEmailAndPassword = (email, password) =>
-  this.auth.signInWithEmailAndPassword(email, password);
+    this.auth.signInWithEmailAndPassword(email, password);
 
   doSignOut = () => this.auth.signOut();
 
   doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
- 
+
   doPasswordUpdate = password =>
     this.auth.currentUser.updatePassword(password);
-  
+
   users = () => this.db.ref('/users');
 
   texts = () => this.db.ref('/texts');
@@ -40,8 +40,8 @@ class Firebase {
   stream = () => this.db.ref('/streams');
 
   currentUser = () => this.auth.currentUser?.uid;
-  
+
   text = (textId) => this.db.ref('/texts' + textId);
 }
- 
+
 export default Firebase;
