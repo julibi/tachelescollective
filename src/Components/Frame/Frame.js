@@ -1,14 +1,17 @@
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
+import { Link, withRouter } from "react-router-dom";
 import Navigation from '../Navigation';
 
 import './Frame.css';
 
-interface FrameProps {
-  children: React.ReactNode;
-}
+// interface FrameProps {
+//   children: React.ReactNode;
+// }
 
-const Frame = ({ children }: FrameProps) => {
+// TODO: withRouter typescript!
+
+const Frame = ({ children, location }) => {
   return (
     <Fragment>
       <Navigation />
@@ -19,6 +22,9 @@ const Frame = ({ children }: FrameProps) => {
           <div className={classNames("logo", "third")}>E<span className="neon">I</span></div>
           <div className="logo"><span className="neon">C</span>HE</div>
           <div className={classNames("logo", "fifth")}>N</div>
+          <div className={classNames(location.pathname === "/about" && "strikethrough","navigationAbout")}>
+            <Link to="/about">ABOUT</Link>
+          </div>
         </div>
         <div className="content">{children}</div>
       </div>
@@ -26,4 +32,4 @@ const Frame = ({ children }: FrameProps) => {
   );
 }
 
-export default Frame;
+export default withRouter(Frame);

@@ -14,11 +14,13 @@
 }
 
 .navigationTexts, .navigationAuth {
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Chivo', sans-serif;
 }
 
 .navigationTexts {
   flex-grow: 4;
+  padding-top: 2em;
+  padding-left: 2em;
   border-right: 1px solid;
   display: flex;
   justify-content: center;
@@ -28,7 +30,7 @@
 .navigationTexts > a, .navigationAuth > a  {
   color: black;
   text-decoration: none;
-  text-align: center;
+  text-align: left;
 }
 
 .navigationTexts > a:hover, .navigationTexts > a:focus,
@@ -38,6 +40,8 @@
 
 .navigationAuth {
   width: 120px;
+  padding-top: 2em;
+  padding-left: 2em;
   flex-grow: 1;
   display: flex;
   justify-content: center;
@@ -48,9 +52,17 @@
 .signoutButton {
   border: none;
   background: none;
-  margin: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  font-family: 'Chivo', sans-serif;
 }
 
 .signoutButton:hover {
   cursor: pointer;
+}
+
+.strikethrough {
+  text-decoration: line-through;
 }

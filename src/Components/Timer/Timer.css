@@ -27,7 +27,11 @@
 }
 
 .timerPink {
-  color: #f5054f
+  color: #f5054f;
+}
+
+.blink {
+  animation: blinker 1s linear infinite;
 }
 
 .timerCountdownSkeleton {
@@ -76,5 +80,11 @@
   }
   100% {
     background-position: -135% 0%
+  }
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
   }
 }

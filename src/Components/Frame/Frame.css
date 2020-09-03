@@ -10,7 +10,7 @@
   min-width: 350px;
   flex-grow: 1;
   border-right: 1px solid;
-  padding: 2em;
+  padding: 2.3em;
 }
 
 .content {
@@ -30,4 +30,27 @@
 
 .first, .neon {
   color: #DAFD04;
+}
+
+.navigationAbout {
+  max-width: 55px;
+  margin-left: -14px;
+  font-family: 'Chivo', sans-serif;
+  transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  /* Internet Explorer */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+
+.navigationAbout > a  {
+  color: black;
+  text-decoration: none;
+  text-align: center;
+}
+
+.navigationAbout > a:hover, .navigationTexts > a:focus {
+  color: black;
 }

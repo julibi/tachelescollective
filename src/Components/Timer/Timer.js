@@ -98,7 +98,7 @@ const Timer = ({ firebase, lastText, page, className }) => {
       );
     }
   };
-
+  
   return (
     <div className={classNames("timerContainer", className)}>
       <AuthUserContext.Consumer>
@@ -119,8 +119,8 @@ const Timer = ({ firebase, lastText, page, className }) => {
           }
           {!countdown && <Skeleton className={"timerTextSkeleton"} />}
           {page === "texts" && <div className="timerDivider" />}
-          {(countdown && timeValid) && <p className={classNames("timerCountdown", isUrgent && "timerPink")}>{countdown}</p>}
-          {(countdown && !timeValid) && <p className="timerCountdown">{countdown}</p>}
+          {(countdown && timeValid) && <p className={classNames("timerCountdown", isUrgent && "timerPink", "blink")}>{countdown}</p>}
+          {(countdown && !timeValid) && <p className={classNames("timerCountdown", "timerPink")}>{countdown}</p>}
           {!countdown && <Skeleton className={"timerCountdownSkeleton"} />}
         </Fragment>
       }
@@ -132,8 +132,8 @@ const Timer = ({ firebase, lastText, page, className }) => {
             </div>
           }
           {!countdown && <Skeleton className={"smallTimerTextSkeleton"} />}
-          {(countdown && timeValid) && <p className={classNames("smallTimerCountdown", isUrgent && "timerPink")}>{countdown}</p>}
-          {(countdown && !timeValid) && <p className={"smallTimerCountdown"}>{countdown}</p>}
+          {(countdown && timeValid) && <p className={classNames("smallTimerCountdown", isUrgent && "timerPink", "blink")}>{countdown}</p>}
+          {(countdown && !timeValid) && <p className={classNames("smallTimerCountdown", "timerPink")}>{countdown}</p>}
           {!countdown && <Skeleton className={"smallTimerCountdownSkeleton"} />}
         </Fragment>
       }
