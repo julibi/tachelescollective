@@ -12,63 +12,40 @@ import { auth } from 'firebase';
 //   authUser: object | null
 // }
 
-const withAuthentication = Component => {
-  class WithAuthentication extends React.Component {
-    state = {
-      authUser: null
-    };
+// interface firebase {
+//   auth: {
+//     onAuthStateChanged: (authUser: Object) => void;
+//   }
+// }
 
-    componentDidMount() {
-      this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
-        authUser
-          ? this.setState({ authUser })
-          : this.setState({ authUser: null });
-      });
-    }
+// interface withAuthenticationProps {
+//   firebase: firebase
+// }
 
-    componentWillUnmount() {
-      this.listener();
-    }
-    render() {
-      const { authUser } = this.state;
+const withAuthentication = (Component) => {
+  const Authenticate = (props) => {
+    const [authUser, setAuthUser] = useState(null);
+    useEffect(() => {
+      const fetchAuthUser = async () => {
+        await props.firebase.auth.onAuthStateChanged(authUser => {
+          if (authUser) {
+            setAuthUser(authUser);
+          } else {
+            setAuthUser(null);
+          }
+        });
+      };
 
-      return (
-        <AuthUserContext.Provider value={authUser}>
-          <Component {...this.props} />
-        </AuthUserContext.Provider>
-      );
-    }
+      fetchAuthUser();
+    }, [props.firebase]);
+    return (
+      <AuthUserContext.Provider value={authUser}>
+        <Component {...props} />
+      </AuthUserContext.Provider>
+    );
   }
 
-  return withFirebase(WithAuthentication);
+  return withFirebase(Authenticate);
 };
 
 export default withAuthentication; 
-
-
-// attempt to turn higher order component into a hook
-// const WithAuthentication = (Component) => {
-//   const something = ({firebase}) => {
-//   const [authUser, setAuthUser] = useState(null);
-
-//   useEffect(() => {
-//     const fetch = async () => {
-//       await firebase.auth.onAuthStateChanged(authUser => {
-//         if (authUser) {
-//           setAuthUser(authUser);
-//         }
-//       });
-//     };
-
-//     fetch();
-
-//   }, []);
-
-//   return (
-//     <Component {...this.props} authUser={authUser} />
-//   );
-// };
-// };
-
-
-// export default withFirebase(WithAuthentication);
