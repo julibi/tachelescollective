@@ -8,22 +8,22 @@ import { auth } from 'firebase';
 // props - what does a firebase object look like?
 // the function on AuthStateChanged
 
-// interface authenticationState {
-//   authUser: object | null
-// }
+interface authenticationState {
+  authUser: object | null
+}
 
-// interface firebase {
-//   auth: {
-//     onAuthStateChanged: (authUser: Object) => void;
-//   }
-// }
+interface firebase {
+  auth: {
+    onAuthStateChanged: (authUser: Object) => void;
+  }
+}
 
-// interface withAuthenticationProps {
-//   firebase: firebase
-// }
+interface withAuthenticationProps {
+  firebase: firebase
+}
 
-const withAuthentication = (Component) => {
-  const Authenticate = (props) => {
+const withAuthentication = (Component: React.ReactNode) => {
+  const Authenticate = (props: withAuthenticationProps) => {
     const [authUser, setAuthUser] = useState(null);
     useEffect(() => {
       const fetchAuthUser = async () => {
@@ -49,3 +49,4 @@ const withAuthentication = (Component) => {
 };
 
 export default withAuthentication; 
+
