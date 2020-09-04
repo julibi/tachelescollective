@@ -23,6 +23,7 @@
 .CTA {
   display: flex;
   flex-direction: column;
+  text-align: right;
 }
 
 .timerCountdown {
@@ -60,7 +61,6 @@
 
 .smallTimerText {
   margin-bottom: 0;
-  margin-right: 16px;
 }
 
 .smallTimerCountdown {
@@ -88,6 +88,7 @@
   max-width: 100%;
   margin-bottom: 0.5em;
   padding-left: 0;
+  padding-right: 0;
   text-align: left;
 }
 

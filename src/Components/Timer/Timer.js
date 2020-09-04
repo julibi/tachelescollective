@@ -130,7 +130,7 @@ const Timer = ({ firebase, lastText, page, className }) => {
         }}
       </AuthUserContext.Consumer>
       {countdown &&
-        <div className={page === "texts" ? "timerText" : "smallTimer"}>
+        <div className={page === "texts" ? "timerText" : "smallTimerText"}>
           {renderRequestVersions()}
         </div>
       }
