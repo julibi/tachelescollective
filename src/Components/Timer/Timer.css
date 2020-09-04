@@ -20,6 +20,11 @@
   height: 200px;
 }
 
+.CTA {
+  display: flex;
+  flex-direction: column;
+}
+
 .timerCountdown {
   color: #DAFD04;
   font-family: 'Cousine', monospace;
@@ -28,8 +33,8 @@
   margin: 0;
 }
 
-.timerPink {
-  color: #f5054f;
+.pink {
+  color: #FF0066;
 }
 
 .blink {
@@ -74,6 +79,28 @@
 .smallTimerCountdownSkeleton {
   width: 167px;
   height: 48px;
+}
+
+.replyButton {
+  border: none;
+  background-color: transparent;
+  font-size: 40px;
+  max-width: 100%;
+  margin-bottom: 0.5em;
+  padding-left: 0;
+  text-align: left;
+}
+
+.smallReplyButton {
+  font-size: 24px;
+}
+
+.buttonArrows {
+  color: #ffffff;
+}
+
+.buttonText {
+  color: #DAFD04;
 }
 
 @keyframes pulse {

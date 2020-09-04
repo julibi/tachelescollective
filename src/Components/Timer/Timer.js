@@ -38,7 +38,7 @@ const Timer = ({ firebase, lastText, page, className }) => {
   const [lastTextId, setLastTextId] = useState('');
   const [challengedName, setChallengedName] = useState('');
   const [shouldShowReplyButton, setShouldShowReplyButton] = useState(false);
-  const [timeValid, setTimeValid] = useState(true);
+  const [isTimeUp, setIsTimeUp] = useState(false);
   const [isUrgent, setIsUrgent] = useState(false);
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const Timer = ({ firebase, lastText, page, className }) => {
           setCountdown(currentCount);
         }, 1000);
       } else {
-        setTimeValid(false);
+        setIsTimeUp(true);
         setCountdown('00:00:00');
       }
     }
@@ -77,25 +77,44 @@ const Timer = ({ firebase, lastText, page, className }) => {
     }
   }, [null, firebase, lastText, myUserId, lastText, myUsername, countdown]);
 
-  const renderRequestVersions = () => {
-    if (shouldShowReplyButton && timeValid && myUsername) {
+  const renderRequestVersions = () => { 
+    if (isTimeUp) {
+      if (myUsername) {
+        return (
+          <p className="pink">{`${challengedName.toUpperCase()}, DEINE ZEIT IST UM... NEXT!`}</p>
+        );
+      }
+      else {
+        return (
+          <p className="pink">{`${challengedName.toUpperCase()}'S ZEIT IST UM... NEXT!`}</p>
+        );
+      }
+    } else {
+      if (myUsername === challengedName) {
+        return (
+          <p>{`${challengedName.toUpperCase()}! DU BIST DRAN IN`}</p>
+        );
+      } else {
+        return (
+          <p>{`${challengedName.toUpperCase()} IST DRAN IN`}</p>
+        );
+      }
+    }
+  };
+
+  const ReplyButton = () => {
+    if (shouldShowReplyButton && !isTimeUp) {
       return (
-        <button onClick={() => history.push(`/write/${lastTextId}`)}>
-          {`SCHREIB WAS, ${myUsername.toUpperCase()}!`}
+        <button
+          className={classNames("replyButton", (page !== "texts") && "smallReplyButton")}
+          onClick={() => history.push(`/write/${lastTextId}`)}
+        >
+          <span className="buttonArrows">{">>>> "}</span>
+          <span className={classNames("buttonText", isUrgent && "pink")}>{"SCHREIB"}</span>
         </button>
       );
-    } else if (!shouldShowReplyButton && timeValid) {
-      return (
-        <p className="smallTimerText">{`${challengedName.toUpperCase()} IST DRAN IN`}</p>
-      );
-    } else if (shouldShowReplyButton && !timeValid) {
-      return (
-        <p>{`${challengedName.toUpperCase()}, ZU SPÄT! DEINE`}</p>
-      );
-    } else if (!shouldShowReplyButton && !timeValid) {
-      return (
-        <p>{`${challengedName.toUpperCase()}S`}</p>
-      );
+    } else {
+      return null;
     }
   };
   
@@ -110,33 +129,29 @@ const Timer = ({ firebase, lastText, page, className }) => {
           }
         }}
       </AuthUserContext.Consumer>
-      {page === "texts" &&
-        <Fragment>
-          {countdown &&
-            <div className="timerText">
-              {renderRequestVersions()}
-            </div>
-          }
-          {!countdown && <Skeleton className={"timerTextSkeleton"} />}
-          {page === "texts" && <div className="timerDivider" />}
-          {(countdown && timeValid) && <p className={classNames("timerCountdown", isUrgent && "timerPink", "blink")}>{countdown}</p>}
-          {(countdown && !timeValid) && <p className={classNames("timerCountdown", "timerPink")}>{countdown}</p>}
-          {!countdown && <Skeleton className={"timerCountdownSkeleton"} />}
-        </Fragment>
+      {countdown &&
+        <div className={page === "texts" ? "timerText" : "smallTimer"}>
+          {renderRequestVersions()}
+        </div>
       }
-      {page !== "texts" &&
-        <Fragment>
-          {countdown &&
-            <div className="smallTimer">
-              {renderRequestVersions()}
-            </div>
-          }
-          {!countdown && <Skeleton className={"smallTimerTextSkeleton"} />}
-          {(countdown && timeValid) && <p className={classNames("smallTimerCountdown", isUrgent && "timerPink", "blink")}>{countdown}</p>}
-          {(countdown && !timeValid) && <p className={classNames("smallTimerCountdown", "timerPink")}>{countdown}</p>}
-          {!countdown && <Skeleton className={"smallTimerCountdownSkeleton"} />}
-        </Fragment>
-      }
+      {!countdown &&
+        <Skeleton className={page === "texts" ? "timerTextSkeleton" : "smallTimerTextSkeleton"} />}
+      {page === "texts" && <div className="timerDivider" />}
+      <div className="CTA">
+        {countdown &&
+          <p className={classNames(
+            page === "texts" ? "timerCountdown" : "smallTimerCountdown",
+            (isUrgent || isTimeUp) && "pink",
+            (isUrgent && !isTimeUp) && "blink"
+            )}
+          >
+            {countdown}
+          </p>
+        }
+        {!countdown &&
+          <Skeleton className={page === "texts" ? "timerCountdownSkeleton" : "smallTimerCountdownSkeleton"} />}
+        {ReplyButton()}
+      </div>
     </div>
   );
 }
