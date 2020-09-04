@@ -62,7 +62,7 @@ const Timer = ({ firebase, lastText, page, className }) => {
         }, 1000);
       } else {
         setTimeValid(false);
-        setCountdown('ZEIT IST ABGELAUFEN');
+        setCountdown('00:00:00');
       }
     }
 

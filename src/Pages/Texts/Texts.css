@@ -18,6 +18,7 @@
 
 .title {
   color: #ffffff;
+  margin-bottom: 1.5em;
 }
 
 .textBlock {
@@ -31,6 +32,8 @@
 
 .text {
   word-break: break-all;
+  font-size: 22px;
+  line-height: 33px;
 }
 
 @media only screen and (min-width: 900px) {

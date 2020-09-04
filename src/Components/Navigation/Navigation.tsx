@@ -10,6 +10,7 @@ import { AuthUserContext } from '../Session';
 import './Navigation.css';
 
 const Navigation = ({ location }) => {
+  console.log(location.pathname);
   return (
     <AuthUserContext.Consumer>
       {authUser =>
@@ -17,6 +18,7 @@ const Navigation = ({ location }) => {
           <div className="navigationEmpty" />
           <div className={classNames(
             "navigationTexts",
+            location.pathname === "/" && "strikethrough",
             location.pathname === "/texts" && "strikethrough"
           )}>
             <Link to="/texts">HOME</Link>

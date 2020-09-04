@@ -1,6 +1,6 @@
 .timerContainer {
   font-family: 'Chivo', sans-serif;
-  padding: 3em;
+  padding: 3em 3em 1em 3em;
   display: flex;
   align-items: flex-end;
   flex-direction: column;
@@ -8,6 +8,7 @@
 
 .timerText, .smallTimerText {
   color: #ffffff;
+  font-size: 24px;
 }
 
 .timerTextSkeleton {
@@ -21,8 +22,9 @@
 
 .timerCountdown {
   color: #DAFD04;
+  font-family: 'Cousine', monospace;
   font-weight: 700;
-  font-size: 65px;
+  font-size: 100px;
   margin: 0;
 }
 
