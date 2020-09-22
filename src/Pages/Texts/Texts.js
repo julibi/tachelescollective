@@ -5,7 +5,7 @@ import { withAuthentication, AuthUserContext } from '../../Components/Session';
 import history from '../../history';
 import Timer from '../../Components/Timer'
 import Skeleton from '../../Components/Skeleton'
-import { formatTime } from '../../Components/Timer/Timer'
+import { formatTime } from '../../lib/timeStampConverter'
 
 import './Texts.css';
 
@@ -34,7 +34,6 @@ const Texts = ({ firebase }) => {
   return (
     <div className="textContainer">
       <Timer page={"texts"} className="timer" lastText={texts[0]} />
-      
       {texts.length === 0 &&
         <Fragment>
           <div className="textWrapper">

@@ -4,6 +4,7 @@ import { withFirebase } from '../../Components/Firebase/context';
 import { withAuthentication, AuthUserContext } from '../../Components/Session';
 import Timer from '../../Components/Timer';
 import history from '../../history';
+import { toHHMMSS, formatTime } from '../../lib/timeStampConverter';
 import './TextDetail.css';
 
 const splitInHalf = str => {
@@ -41,7 +42,7 @@ const TextDetail = ({ firebase, location }) => {
 
   useEffect(() => {
     const splitted = text?.mainText && splitInHalf(text.mainText);
-    setSplitText(splitted)
+    setSplitText(splitted);   
   }, [text]);
 
   if (!text) {
@@ -57,19 +58,20 @@ const TextDetail = ({ firebase, location }) => {
   return (
     <Fragment>
       <div className="container">
+        {/* it should only show the timer on textdetail, if it is the last text
+        -find out the smoothest way to do so */}
         <Timer page={"textDetail"} lastText={text} />
-        <div key={text.id} className="textContent">
-        
+        <div key={text.id} className="textContent">      
           {splitText && 
             <p>
-              <span className="textTitle">{`${text.title.toUpperCase()}`}</span>{splitText[0]}<span className="testo">{text.authorName}</span>{splitText[1]}
+              <span className="textTitle">{`${text.title.toUpperCase()}`}</span>{splitText[0]}<span className="authorAndDate">{`${text.authorName}-${formatTime(text.publishedAt.server_timestamp)}`}</span>{splitText[1]}
             </p>
           }
+          <button onClick={() => history.push('/texts/')} className="goBack">
+            {'<<<<'}
+          </button>
         </div>
       </div>
-      <button onClick={() => history.push('/texts/')}>
-        {'Go Back'}
-      </button>
     </Fragment>
   );
 }

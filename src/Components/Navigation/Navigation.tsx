@@ -10,7 +10,6 @@ import { AuthUserContext } from '../Session';
 import './Navigation.css';
 
 const Navigation = ({ location }) => {
-  console.log(location.pathname);
   return (
     <AuthUserContext.Consumer>
       {authUser =>
