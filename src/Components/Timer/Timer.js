@@ -137,8 +137,8 @@ const Timer = ({ firebase, lastText, page, className }) => {
       {!countdown &&
         <Skeleton className={page === "texts" ? "timerTextSkeleton" : "smallTimerTextSkeleton"} />}
       {page === "texts" && <div className="timerDivider" />}
-      <div className="CTA">
-        {countdown &&
+      {countdown &&
+        <div className="CTA">
           <p className={classNames(
             page === "texts" ? "timerCountdown" : "smallTimerCountdown",
             (isUrgent || isTimeUp) && "pink",
@@ -147,11 +147,11 @@ const Timer = ({ firebase, lastText, page, className }) => {
           >
             {countdown}
           </p>
-        }
-        {!countdown &&
-          <Skeleton className={page === "texts" ? "timerCountdownSkeleton" : "smallTimerCountdownSkeleton"} />}
-        {ReplyButton()}
-      </div>
+          {ReplyButton()}
+        </div>
+      }
+      {!countdown &&
+        <Skeleton className={page === "texts" ? "timerCountdownSkeleton" : "smallTimerCountdownSkeleton"} />}
     </div>
   );
 }

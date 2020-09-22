@@ -35,7 +35,7 @@
 }
 
 .pink {
-  color: #FF0066;
+  color: #FF0066 !important;
 }
 
 .blink {
@@ -73,7 +73,7 @@
 .smallTimerTextSkeleton {
   width: 126px;
   height: 19px;
-  margin-right: 16px;
+  margin-bottom: 16px;
 }
 
 .smallTimerCountdownSkeleton {
