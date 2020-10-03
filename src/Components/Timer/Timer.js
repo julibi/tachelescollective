@@ -19,6 +19,18 @@ const Timer = ({ firebase, lastText, page, className }) => {
   const [isUrgent, setIsUrgent] = useState(false);
 
   useEffect(() => {
+    if (lastText) {
+      setLastTextId(lastText.id);
+      setChallengedName(lastText.challenged);
+      if (lastText.challenged === myUsername) {
+        setShouldShowReplyButton(true);
+      } else {
+        setShouldShowReplyButton(false);
+      }
+    }
+  }, [lastText, myUsername]);
+
+  useEffect(() => {
     const createdAt = lastText ? lastText.publishedAt.server_timestamp : null;
     const getCurrentUsername = async () => {
       await firebase.users().on('value', snapshot => setMyUsername(snapshot.val().find(user => user.id === myUserId)?.username));
@@ -42,17 +54,7 @@ const Timer = ({ firebase, lastText, page, className }) => {
         setCountdown('00:00:00');
       }
     }
-
-    if (lastText) {
-      setLastTextId(lastText.id);
-      setChallengedName(lastText.challenged);
-      if (lastText.challenged === myUsername) {
-        setShouldShowReplyButton(true);
-      } else {
-        setShouldShowReplyButton(false);
-      }
-    }
-  }, [firebase, lastText, myUserId, myUsername, countdown]);
+  }, [firebase, lastText, myUserId, countdown]);
 
   const renderRequestVersions = () => { 
     if (isTimeUp) {
@@ -81,6 +83,7 @@ const Timer = ({ firebase, lastText, page, className }) => {
 
   const ReplyButton = () => {
     if (shouldShowReplyButton && !isTimeUp) {
+      console.log(lastTextId);
       return (
         <button
           className={classNames("replyButton", (page !== "texts") && "smallReplyButton")}

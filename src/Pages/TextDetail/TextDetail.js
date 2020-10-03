@@ -45,6 +45,13 @@ const TextDetail = ({ firebase, location }) => {
     setSplitText(splitted);   
   }, [text]);
 
+  useEffect(() => {
+    if (text && textIdWithoutSlash) {
+      const formattedText = { ...text, id: textIdWithoutSlash };
+      setText(formattedText);
+    }
+  }, [text, textIdWithoutSlash]);
+
   if (!text) {
     if (textIds.length) {
       // in case the user accesses a route like /texts/bullshit
