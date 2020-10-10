@@ -14,6 +14,7 @@ const splitInHalf = str => {
 
 const TextDetail = ({ firebase, location }) => {
   const [text, setText] = useState(null);
+  const [formattedText, setFormattedText] = useState(null);
   const [textIds, setTextIds] = useState([]);
   const [textIdWithoutSlash, setTextIdWithoutSlash] = useState(null);
   const [splitText, setSplitText] = useState(null);
@@ -48,7 +49,7 @@ const TextDetail = ({ firebase, location }) => {
   useEffect(() => {
     if (text && textIdWithoutSlash) {
       const formattedText = { ...text, id: textIdWithoutSlash };
-      setText(formattedText);
+        setFormattedText(formattedText);
     }
   }, [text, textIdWithoutSlash]);
 
@@ -67,7 +68,7 @@ const TextDetail = ({ firebase, location }) => {
       <div className="container">
         {/* it should only show the timer on textdetail, if it is the last text
         -find out the smoothest way to do so */}
-        <Timer page={"textDetail"} lastText={text} />
+        <Timer page={"textDetail"} lastText={formattedText} />
         <div key={text.id} className="textContent">      
           {splitText && 
             <p>

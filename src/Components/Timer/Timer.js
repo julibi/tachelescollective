@@ -83,7 +83,6 @@ const Timer = ({ firebase, lastText, page, className }) => {
 
   const ReplyButton = () => {
     if (shouldShowReplyButton && !isTimeUp) {
-      console.log(lastTextId);
       return (
         <button
           className={classNames("replyButton", (page !== "texts") && "smallReplyButton")}
