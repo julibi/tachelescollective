@@ -14,6 +14,7 @@ const Texts = ({ firebase }) => {
 
   useEffect(() => {
     const getTexts = async () => {
+      // TODO: refactor, exact same fetching method inside Write.js
       await firebase.texts().on('value', snapshot => {
         let formattedTextlist = [];
         for (let i = 0; i < Object.values(snapshot.val()).length; i++) {
@@ -23,14 +24,9 @@ const Texts = ({ firebase }) => {
       });
 
     };
-    // TODO: refactor, exact same fetching method inside Write.js
-    // const getCurrentUsername = async () => {
-    //   await firebase.users().once('value', snapshot => console.log(snapshot.val().find(item => item.id === myUserId)?.username));
-    // };
-
     getTexts();
   }, [firebase])
-  
+
   return (
     <div className="textContainer">
       <Timer page={"texts"} className="timer" lastText={texts[0]} />

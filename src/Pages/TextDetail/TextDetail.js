@@ -14,10 +14,28 @@ const splitInHalf = str => {
 
 const TextDetail = ({ firebase, location }) => {
   const [text, setText] = useState(null);
+  const [lastTextId, setLastTextId] = useState([]);
   const [formattedText, setFormattedText] = useState(null);
   const [textIds, setTextIds] = useState([]);
+  const [texts, setTexts] = useState([]);
+  const [shouldShowTimer, setShouldShowTimer] = useState(false);
   const [textIdWithoutSlash, setTextIdWithoutSlash] = useState(null);
   const [splitText, setSplitText] = useState(null);
+  
+  useEffect(() => {
+    const getTexts = async () => {
+      // TODO: refactor, exact same fetching method inside Write.js
+      await firebase.texts().on('value', snapshot => {
+        let formattedTextlist = [];
+        for (let i = 0; i < Object.values(snapshot.val()).length; i++) {
+          formattedTextlist.push({id: Object.keys(snapshot.val())[i], ...Object.values(snapshot.val())[i]})
+        }
+        setTexts(formattedTextlist.reverse());
+      });
+
+    };
+    getTexts();
+  }, [firebase])
   
   useEffect(() => {
     const textId = location.pathname.slice(6, location.pathname.length);
@@ -43,15 +61,25 @@ const TextDetail = ({ firebase, location }) => {
 
   useEffect(() => {
     const splitted = text?.mainText && splitInHalf(text.mainText);
-    setSplitText(splitted);   
+    setSplitText(splitted);  
+
   }, [text]);
 
   useEffect(() => {
-    if (text && textIdWithoutSlash) {
-      const formattedText = { ...text, id: textIdWithoutSlash };
-        setFormattedText(formattedText);
+    if (texts.length) {
+      setLastTextId(texts[0].id); 
     }
-  }, [text, textIdWithoutSlash]);
+  }, [texts]);
+
+  useEffect(() => {
+    if (text && textIdWithoutSlash && lastTextId) {
+      const formattedText = { ...text, id: textIdWithoutSlash };
+      setFormattedText(formattedText);
+      if (lastTextId === textIdWithoutSlash) {
+        setShouldShowTimer(true);
+      }
+    }
+  }, [text, textIdWithoutSlash, lastTextId]);
 
   if (!text) {
     if (textIds.length) {
@@ -68,7 +96,7 @@ const TextDetail = ({ firebase, location }) => {
       <div className="container">
         {/* it should only show the timer on textdetail, if it is the last text
         -find out the smoothest way to do so */}
-        <Timer page={"textDetail"} lastText={formattedText} />
+        {shouldShowTimer && <Timer page={"textDetail"} lastText={formattedText} />}
         <div key={text.id} className="textContent">      
           {splitText && 
             <p>

@@ -24,7 +24,8 @@ const Write = ({ firebase, match, location }) => {
     const [users, setUsers] = useState([]);
     const [myUsername, setMyUsername] = useState('');
     const [challenged, setChallenged] = useState('');
-    const [writerName, setWriterName] = useState(null)
+    const [writerName, setWriterName] = useState(null);
+    const [permittedToWrite, setPermittedToWrite] = useState(true);
     const handleTextareaChange = (value) => {
       if (value.length === MAX_LENGTH) {
         setError('Your text length exceeds the maximum of allowed characters.');
@@ -74,15 +75,18 @@ const Write = ({ firebase, match, location }) => {
         await firebase.users().once('value', snapshot => setMyUsername(snapshot.val().find(item => item.id === firebase.currentUser())?.username));
       };
       getCurrentUsername();
+
       const textId = location.pathname.slice(6, location.pathname.length);
       const getWriterName = async () => {
         await firebase.text(textId).once('value', snapshot => setWriterName(snapshot.val()?.challenged));
       };
+
       getWriterName();
       return () => {
         abortController.abort();
       };
-    }, [firebase, location.pathname]);
+      debugger;
+    }, []);
 
     useEffect(() => {
       const abortController = new AbortController();
@@ -93,13 +97,22 @@ const Write = ({ firebase, match, location }) => {
       };
     }, [match])
 
+    useEffect(() => {
+      if (writerName?.length && myUsername?.length) {
+        if (writerName !== myUsername) {
+          setPermittedToWrite(false);
+        }
+      }
+    }, [writerName, myUsername]);
+
     return (
       <AuthUserContext.Consumer>
         {authUser => {
-          if (writerName !== myUsername) {
-            // route it to NoMatch??
-            return NoMatch;
-          } else {
+          // prevent user's whose turn has not come yet, to access the write route by copy pasting
+          if (!permittedToWrite) {
+            history.push('/nomatch');
+          }
+          if (writerName === myUsername && permittedToWrite) {
             return (
               <div className="pageWrapper">
                 <h1>Account: {authUser.email}</h1>
