@@ -1,19 +1,19 @@
-import React, { useEffect, useState, Fragment } from 'react';
-import classNames from 'classnames';
-import { withFirebase } from '../Firebase/context';
-import Skeleton from '../Skeleton';
-import { AuthUserContext } from '../Session';
-import history from '../../history';
-import { toHHMMSS, formatTime } from '../../lib/timeStampConverter';
+import React, { useEffect, useState, Fragment } from "react";
+import classNames from "classnames";
+import { withFirebase } from "../Firebase/context";
+import Skeleton from "../Skeleton";
+import { AuthUserContext } from "../Session";
+import history from "../../history";
+import { toHHMMSS, formatTime } from "../../lib/timeStampConverter";
 
-import './Timer.css';
+import "./Timer.css";
 
 const Timer = ({ firebase, lastText, page, className }) => {
   const [myUserId, setUserId] = useState(null);
   const [myUsername, setMyUsername] = useState(null);
   const [countdown, setCountdown] = useState(null);
-  const [lastTextId, setLastTextId] = useState('');
-  const [challengedName, setChallengedName] = useState('');
+  const [lastTextId, setLastTextId] = useState("");
+  const [challengedName, setChallengedName] = useState("");
   const [shouldShowReplyButton, setShouldShowReplyButton] = useState(false);
   const [isTimeUp, setIsTimeUp] = useState(false);
   const [isUrgent, setIsUrgent] = useState(false);
@@ -33,7 +33,13 @@ const Timer = ({ firebase, lastText, page, className }) => {
   useEffect(() => {
     const createdAt = lastText ? lastText.publishedAt.server_timestamp : null;
     const getCurrentUsername = async () => {
-      await firebase.users().on('value', snapshot => setMyUsername(snapshot.val().find(user => user.id === myUserId)?.username));
+      await firebase
+        .users()
+        .on("value", (snapshot) =>
+          setMyUsername(
+            snapshot.val().find((user) => user.id === myUserId)?.username
+          )
+        );
     };
     getCurrentUsername();
 
@@ -43,7 +49,7 @@ const Timer = ({ firebase, lastText, page, className }) => {
       const currentCount = toHHMMSS(deadline - now);
 
       if (deadline > now) {
-        if ((deadline - now) <= 7200) {
+        if (deadline - now <= 7200) {
           setIsUrgent(true);
         }
         setTimeout(() => {
@@ -51,32 +57,27 @@ const Timer = ({ firebase, lastText, page, className }) => {
         }, 1000);
       } else {
         setIsTimeUp(true);
-        setCountdown('00:00:00');
+        setCountdown("00:00:00");
       }
     }
   }, [firebase, lastText, myUserId, countdown]);
 
-  const renderRequestVersions = () => { 
+  const renderRequestVersions = () => {
     if (isTimeUp) {
       if (myUsername) {
         return (
           <p className="pink">{`${challengedName.toUpperCase()}, DEINE ZEIT IST UM... NEXT!`}</p>
         );
-      }
-      else {
+      } else {
         return (
           <p className="pink">{`${challengedName.toUpperCase()}'S ZEIT IST UM... NEXT!`}</p>
         );
       }
     } else {
       if (myUsername === challengedName) {
-        return (
-          <p>{`${challengedName.toUpperCase()}! DU BIST DRAN IN`}</p>
-        );
+        return <p>{`${challengedName.toUpperCase()}! DU BIST DRAN IN`}</p>;
       } else {
-        return (
-          <p>{`${challengedName.toUpperCase()} IST DRAN IN`}</p>
-        );
+        return <p>{`${challengedName.toUpperCase()} IST DRAN IN`}</p>;
       }
     }
   };
@@ -85,22 +86,27 @@ const Timer = ({ firebase, lastText, page, className }) => {
     if (shouldShowReplyButton && !isTimeUp) {
       return (
         <button
-          className={classNames("replyButton", (page !== "texts") && "smallReplyButton")}
+          className={classNames(
+            "replyButton",
+            page !== "texts" && "smallReplyButton"
+          )}
           onClick={() => history.push(`/write/${lastTextId}`)}
         >
           <span className="buttonArrows">{">>>> "}</span>
-          <span className={classNames("buttonText", isUrgent && "pink")}>{"SCHREIB"}</span>
+          <span className={classNames("buttonText", isUrgent && "pink")}>
+            {"SCHREIB"}
+          </span>
         </button>
       );
     } else {
       return null;
     }
   };
-  
+
   return (
     <div className={classNames("timerContainer", className)}>
       <AuthUserContext.Consumer>
-        {authUser => {
+        {(authUser) => {
           if (authUser) {
             setUserId(authUser.uid);
           } else {
@@ -108,31 +114,44 @@ const Timer = ({ firebase, lastText, page, className }) => {
           }
         }}
       </AuthUserContext.Consumer>
-      {countdown &&
+      {countdown && (
         <div className={page === "texts" ? "timerText" : "smallTimerText"}>
           {renderRequestVersions()}
         </div>
-      }
-      {!countdown &&
-        <Skeleton className={page === "texts" ? "timerTextSkeleton" : "smallTimerTextSkeleton"} />}
+      )}
+      {!countdown && (
+        <Skeleton
+          className={
+            page === "texts" ? "timerTextSkeleton" : "smallTimerTextSkeleton"
+          }
+        />
+      )}
       {page === "texts" && <div className="timerDivider" />}
-      {countdown &&
+      {countdown && (
         <div className="CTA">
-          <p className={classNames(
-            page === "texts" ? "timerCountdown" : "smallTimerCountdown",
-            (isUrgent || isTimeUp) && "pink",
-            (isUrgent && !isTimeUp) && "blink"
+          <p
+            className={classNames(
+              page === "texts" ? "timerCountdown" : "smallTimerCountdown",
+              (isUrgent || isTimeUp) && "pink",
+              isUrgent && !isTimeUp && "blink"
             )}
           >
             {countdown}
           </p>
           {ReplyButton()}
         </div>
-      }
-      {!countdown &&
-        <Skeleton className={page === "texts" ? "timerCountdownSkeleton" : "smallTimerCountdownSkeleton"} />}
+      )}
+      {!countdown && (
+        <Skeleton
+          className={
+            page === "texts"
+              ? "timerCountdownSkeleton"
+              : "smallTimerCountdownSkeleton"
+          }
+        />
+      )}
     </div>
   );
-}
+};
 
 export default withFirebase(Timer);
