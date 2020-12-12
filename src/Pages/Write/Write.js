@@ -129,18 +129,29 @@ const Write = ({ firebase, match, location }) => {
           return (
             <div className="pageWrapper">
               <form onSubmit={() => handleTextSubmit()} className="form">
+                <label type="text" name="title" className="titleLabel">
+                  {"TITEL:"}
+                </label>
                 <input
                   className="title"
                   value={title}
                   onChange={(event) => setTitle(event.target.value)}
-                  placeholder="Title"
                 />
+                <label
+                  type="text"
+                  name="challengee"
+                  className="challengeeLabel"
+                >
+                  {"WEN WILLST DU CHALLENGEN?"}
+                </label>
                 <AutoSuggest
                   className="react-autosuggest"
                   values={users && users}
-                  placeholder="Who do you want to challenge?"
                   onChange={(value) => setChallenged(value)}
                 />
+                <label type="text" name="text" className="textLabel">
+                  {"DEIN TEXT:"}
+                </label>
                 <textarea
                   value={mainText}
                   className="editor"
@@ -148,11 +159,9 @@ const Write = ({ firebase, match, location }) => {
                   onChange={(event) => handleTextareaChange(event.target.value)}
                 />
                 <p className="error">{error ? error : ""}</p>
-                <input
-                  type="submit"
-                  value="ANTWORTEN"
-                  className="submitButton"
-                />
+                <button type="submit" className="submitButton">
+                  {"ANTWORTEN"}
+                </button>
               </form>
             </div>
           );

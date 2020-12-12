@@ -83,7 +83,9 @@ const Timer = ({ firebase, lastText, page, className }) => {
   };
 
   const ReplyButton = () => {
-    if (shouldShowReplyButton && !isTimeUp) {
+    // MOCKING
+    // if (shouldShowReplyButton && !isTimeUp) {
+    if (shouldShowReplyButton) {
       return (
         <button
           className={classNames(
