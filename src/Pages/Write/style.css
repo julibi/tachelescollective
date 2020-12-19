@@ -17,7 +17,6 @@ input,
   font-weight: 300;
   font-size: 16px;
   border: 1px solid #aaa;
-  background-color: #ddd;
   border-radius: 4px;
   margin-bottom: 2em;
 }
@@ -26,7 +25,8 @@ input,
 .react-autosuggest__input {
   height: 30px;
   /* max-width: 500px; */
-  padding: 10px 0;
+  padding: 1em;
+  box-sizing: border-box;
 }
 
 .titleLabel,
@@ -37,12 +37,19 @@ input,
 }
 
 .title,
+.react-autosuggest__input {
+  box-sizing: border-box;
+  height: 54px;
+}
+
+.title,
 .editor {
   border-radius: 0;
   border-color: transparent;
   background: rgba(255, 255, 255, 0.85);
   font-family: "Nunito", sans-serif;
   color: black;
+  padding: 1em;
 }
 
 .title:focus,
@@ -52,19 +59,14 @@ input,
   border-radius: 0;
 }
 
-.react-autosuggest {
-  color: red !important;
-}
-
 .editor {
   font-family: arial;
   font-size: 16px;
   height: 500px;
   width: 100%;
-  padding: 0;
   line-height: 1.6;
-  padding: 30px 0;
   resize: none;
+  box-sizing: border-box;
 }
 
 .error {
@@ -86,6 +88,7 @@ input,
 }
 
 .react-autosuggest__input {
+  padding: 1em;
   border: none;
   border-radius: 0;
 }
