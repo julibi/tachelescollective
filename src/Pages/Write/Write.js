@@ -65,13 +65,20 @@ const Write = ({ firebase, match, location }) => {
     const getUsers = async () => {
       // TODO: sort yourself out of that array
       // TODO: throw an error when submitting with wrong username
-      await firebase
-        .users()
-        .once("value", (snapshot) =>
-          setUsers(
-            snapshot.val().filter((item) => item.id !== firebase.currentUser())
-          )
-        );
+      // await firebase
+      //   .users()
+      //   .once("value", (snapshot) =>
+      //     setUsers(
+      //       snapshot.val().filter((item) => item.id !== firebase.currentUser())
+      //     )
+      //   );
+
+      setUsers([
+        { username: "Testino" },
+        { username: "Teineken" },
+        { username: "Tarantino" },
+        { username: "Tarantula" },
+      ]);
     };
     getUsers();
 

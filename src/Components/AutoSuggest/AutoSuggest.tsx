@@ -69,7 +69,7 @@ class AutoSuggest extends React.Component<AutoSuggestProps, AutoSuggestState> {
       value,
       onChange: this.onChange
     };
-
+    
     // Finally, render it!
     return (
       <Autosuggest

@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { withRouter } from 'react-router-dom';
-import { withFirebase } from '../../Components/Firebase/context';
+import React, { useState, useEffect, useCallback } from "react";
+import { withRouter } from "react-router-dom";
+import { withFirebase } from "../../Components/Firebase/context";
 
 const Login = ({ history, firebase }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [isInvalid, setIsInvalid] = useState(true);
   const handleChangeEmail = (event) => {
@@ -15,16 +15,16 @@ const Login = ({ history, firebase }) => {
   };
 
   const validate = useCallback(() => {
-    if (email.length < 1|| password.length < 1) {
+    if (email.length < 1 || password.length < 1) {
       setIsInvalid(true);
     } else {
       setIsInvalid(false);
     }
-  },[email.length, password]);
+  }, [email.length, password]);
 
   const resetLogin = () => {
-    setEmail('');
-    setPassword('');
+    setEmail("");
+    setPassword("");
     setError(null);
     setIsInvalid(false);
   };
@@ -33,22 +33,22 @@ const Login = ({ history, firebase }) => {
   const handleSubmit = (event, email, password) => {
     firebase
       .doSignInWithEmailAndPassword(email, password)
-      .then(authUser => {
+      .then((authUser) => {
         resetLogin();
-        history.push('/texts');
+        history.push("/texts");
       })
-      .catch(error => {
-        console.log('error');
+      .catch((error) => {
+        console.log("error");
         setError(error);
       });
-      event.preventDefault(); 
+    event.preventDefault();
   };
 
   useEffect(() => {
     validate();
   }, [email, password, validate]);
 
-  return(
+  return (
     <form onSubmit={(event) => handleSubmit(event, email, password)}>
       <input
         name="email"
@@ -66,11 +66,13 @@ const Login = ({ history, firebase }) => {
         placeholder="Password"
         autoComplete="on"
       />
-      <button type="submit" disabled={isInvalid}>Sign Up</button>
+      <button type="submit" disabled={isInvalid}>
+        Sign Up
+      </button>
 
       {error && <p>{error.message}</p>}
-  </form>
+    </form>
   );
-}
+};
 
 export default withRouter(withFirebase(Login));
