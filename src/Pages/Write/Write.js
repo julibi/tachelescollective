@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
+import classNames from "classnames";
 import NoMatch from "../NoMatch";
 import history from "../../history";
 import { withAuthorization, AuthUserContext } from "../../Components/Session";
@@ -28,10 +29,13 @@ const Write = ({ firebase, match, location }) => {
   const [permittedToWrite, setPermittedToWrite] = useState(true);
   const handleTextareaChange = (value) => {
     if (value.length === MAX_LENGTH) {
-      setError("Your text length exceeds the maximum of allowed characters.");
+      setError("Dein Text sollte nicht länger als 800 Zeichen sein.");
+    } else if (value.length < MIN_LENGTH) {
+      setError("Dein Text sollte mindestens 33 Zeichen haben.");
     } else {
       setError("");
     }
+
     setMainText(value);
   };
   const handleTextSubmit = async () => {
@@ -58,6 +62,15 @@ const Write = ({ firebase, match, location }) => {
         console.log(error);
       }
     }
+  };
+
+  const isSubmitDisabled = () => {
+    return (
+      error.length ||
+      !challenged.length ||
+      mainText.length < MIN_LENGTH ||
+      mainText.length > MAX_LENGTH
+    );
   };
 
   useEffect(() => {
@@ -166,7 +179,14 @@ const Write = ({ firebase, match, location }) => {
                   onChange={(event) => handleTextareaChange(event.target.value)}
                 />
                 <p className="error">{error ? error : ""}</p>
-                <button type="submit" className="submitButton">
+                <button
+                  type="submit"
+                  className={classNames(
+                    "submitButton",
+                    isSubmitDisabled() && "submitDisabled"
+                  )}
+                  disabled={isSubmitDisabled()}
+                >
                   {"ANTWORTEN"}
                 </button>
               </form>
