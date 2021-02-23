@@ -38,7 +38,8 @@ const Write = ({ firebase, match, location }) => {
 
     setMainText(value);
   };
-  const handleTextSubmit = async () => {
+  const handleTextSubmit = async (event) => {
+    event.preventDefault();
     if (mainText.length < MIN_LENGTH) {
       setError(`Your text needs to be at least${MIN_LENGTH} characters.`);
     } else if (!error.length) {
@@ -78,20 +79,13 @@ const Write = ({ firebase, match, location }) => {
     const getUsers = async () => {
       // TODO: sort yourself out of that array
       // TODO: throw an error when submitting with wrong username
-      // await firebase
-      //   .users()
-      //   .once("value", (snapshot) =>
-      //     setUsers(
-      //       snapshot.val().filter((item) => item.id !== firebase.currentUser())
-      //     )
-      //   );
-
-      setUsers([
-        { username: "Testino" },
-        { username: "Teineken" },
-        { username: "Tarantino" },
-        { username: "Tarantula" },
-      ]);
+      await firebase
+        .users()
+        .once("value", (snapshot) =>
+          setUsers(
+            snapshot.val().filter((item) => item.id !== firebase.currentUser())
+          )
+        );
     };
     getUsers();
 
@@ -148,7 +142,10 @@ const Write = ({ firebase, match, location }) => {
         if (writerName === myUsername && permittedToWrite) {
           return (
             <div className="pageWrapper">
-              <form onSubmit={() => handleTextSubmit()} className="form">
+              <form
+                onSubmit={(event) => handleTextSubmit(event)}
+                className="form"
+              >
                 <label type="text" name="title" className="titleLabel">
                   {"TITEL:"}
                 </label>

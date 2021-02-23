@@ -94,6 +94,11 @@ input,
   font-family: "Chivo", sans-serif;
   padding: 16px 30px;
   margin-left: auto;
+  cursor: pointer;
+}
+
+.submitButton:focus {
+  background-color: #aca8b5;
 }
 
 .submitDisabled {
