@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { withRouter } from "react-router-dom";
+import classNames from "classnames";
 import { withFirebase } from "../../Components/Firebase/context";
+import "./Login.css";
 
 const Login = ({ history, firebase }) => {
   const [email, setEmail] = useState("");
@@ -29,9 +31,9 @@ const Login = ({ history, firebase }) => {
     setIsInvalid(false);
   };
 
-  // TODO async await
-  const handleSubmit = (event, email, password) => {
-    firebase
+  const handleSubmit = async (event, email, password) => {
+    event.preventDefault();
+    await firebase
       .doSignInWithEmailAndPassword(email, password)
       .then((authUser) => {
         resetLogin();
@@ -41,7 +43,6 @@ const Login = ({ history, firebase }) => {
         console.log("error");
         setError(error);
       });
-    event.preventDefault();
   };
 
   useEffect(() => {
@@ -51,19 +52,19 @@ const Login = ({ history, firebase }) => {
   return (
     <form onSubmit={(event) => handleSubmit(event, email, password)}>
       <input
+        className="loginField"
         name="email"
         value={email}
         onChange={handleChangeEmail}
         type="text"
-        placeholder="E-Mail"
         autoComplete="on"
       />
       <input
+        className="loginField"
         name="password"
         value={password}
         onChange={handleChangePassword}
         type="password"
-        placeholder="Password"
         autoComplete="on"
       />
       <button type="submit" disabled={isInvalid}>

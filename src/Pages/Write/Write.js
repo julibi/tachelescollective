@@ -6,7 +6,7 @@ import history from "../../history";
 import { withAuthorization, AuthUserContext } from "../../Components/Session";
 import { withFirebase } from "../../Components/Firebase/context";
 import AutoSuggest from "../../Components/AutoSuggest";
-import "./style.css";
+import "./Write.css";
 
 const Write = ({ firebase, match, location }) => {
   const MIN_LENGTH = 33;

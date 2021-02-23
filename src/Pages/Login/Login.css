@@ -1,0 +1,17 @@
+.loginField {
+  height: 54px;
+  padding: 1em;
+  box-sizing: border-box;
+  width: 100%;
+  font-weight: 300;
+  font-size: 16px;
+  border: none;
+  border-radius: 0;
+  margin-bottom: 2em;
+}
+
+.loginField:focus {
+  outline: none;
+  border: 1px solid#DAFD04;
+  border-radius: 0;
+}
