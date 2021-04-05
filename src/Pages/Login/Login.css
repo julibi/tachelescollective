@@ -1,3 +1,17 @@
+.loginWrapper {
+  display: flex;
+  margin-top: 10em;
+  padding: 0 3em;
+  justify-content: center;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin-bottom: 1em;
+}
+
 .loginField {
   height: 54px;
   padding: 1em;
@@ -7,11 +21,36 @@
   font-size: 16px;
   border: none;
   border-radius: 0;
-  margin-bottom: 2em;
+  margin: 1em 0 2em 0;
 }
 
 .loginField:focus {
   outline: none;
   border: 1px solid#DAFD04;
   border-radius: 0;
+}
+
+.label {
+  font-family: "Nunito", sans-serif;
+}
+
+.loginButton {
+  max-height: 80px;
+  max-width: 300px;
+  border-radius: 0;
+  border: 1px solid white;
+  color: #dafd04;
+  background-color: transparent;
+  font-size: 32px;
+  font-family: "Chivo", sans-serif;
+  padding: 16px 30px;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.loginDivider {
+  width: 50%;
+  margin-left: 50%;
+  height: 5px;
+  border-top: 1px solid;
 }

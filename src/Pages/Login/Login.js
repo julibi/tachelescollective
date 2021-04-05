@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, Fragment } from "react";
 import { withRouter } from "react-router-dom";
 import classNames from "classnames";
 import { withFirebase } from "../../Components/Firebase/context";
@@ -50,29 +50,40 @@ const Login = ({ history, firebase }) => {
   }, [email, password, validate]);
 
   return (
-    <form onSubmit={(event) => handleSubmit(event, email, password)}>
-      <input
-        className="loginField"
-        name="email"
-        value={email}
-        onChange={handleChangeEmail}
-        type="text"
-        autoComplete="on"
-      />
-      <input
-        className="loginField"
-        name="password"
-        value={password}
-        onChange={handleChangePassword}
-        type="password"
-        autoComplete="on"
-      />
-      <button type="submit" disabled={isInvalid}>
-        Sign Up
-      </button>
+    <Fragment>
+      <div className="loginWrapper">
+        <form onSubmit={(event) => handleSubmit(event, email, password)} className="loginForm">
+          <label type="text" name="username" className="label">
+            {"USERNAME/E-MAIL:"}
+          </label>
+          <input
+            className="loginField"
+            name="email"
+            value={email}
+            onChange={handleChangeEmail}
+            type="text"
+            autoComplete="on"
+          />
+          <label type="text" name="passwort" className="label">
+            {"PASSWORT:"}
+          </label>
+          <input
+            className="loginField"
+            name="password"
+            value={password}
+            onChange={handleChangePassword}
+            type="password"
+            autoComplete="on"
+          />
+          <button type="submit" disabled={isInvalid} className="loginButton">
+            LOGIN
+          </button>
 
-      {error && <p>{error.message}</p>}
-    </form>
+          {error && <p>{error.message}</p>}
+        </form>
+      </div>
+      <div className="loginDivider" />
+    </Fragment>
   );
 };
 
