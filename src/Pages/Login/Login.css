@@ -1,9 +1,17 @@
 .loginWrapper {
   display: flex;
-  margin-top: 10em;
+  margin: 5em 0;
   padding: 0 3em;
   justify-content: center;
 }
+
+.loginDivider {
+  width: 50%;
+  margin-left: 50%;
+  height: 5px;
+  border-top: 1px solid;
+}
+
 
 .loginForm {
   display: flex;
@@ -48,9 +56,14 @@
   cursor: pointer;
 }
 
-.loginDivider {
-  width: 50%;
-  margin-left: 50%;
-  height: 5px;
-  border-top: 1px solid;
+.errorMessage {
+  color: #ff0066;
+  font-family: "Nunito", sans-serif;
+  font-size: 20px;
+}
+
+@media screen and (min-width: 700px) {
+  .loginWrapper {
+    margin-top: 10em;
+  }
 }

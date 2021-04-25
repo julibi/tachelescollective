@@ -79,7 +79,7 @@ const Login = ({ history, firebase }) => {
             LOGIN
           </button>
 
-          {error && <p>{error.message}</p>}
+          {error && <p className="errorMessage">{error.message}</p>}
         </form>
       </div>
       <div className="loginDivider" />
