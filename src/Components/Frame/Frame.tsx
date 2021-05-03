@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 import { RouteComponentProps, Link, withRouter } from "react-router-dom";
+import { useMediaQuery } from 'react-responsive'
 import Navigation from '../Navigation';
 
 import './Frame.css';
@@ -10,6 +11,20 @@ interface FrameProps extends RouteComponentProps<any> {
 }
 
 const Frame = ({ children, location }: FrameProps) => {
+  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+  if (isTabletOrMobile) {
+    return (
+      <div className="mobileGrid">
+      <div className="mobileTopbar">
+        {
+          "TODO: Put the timer here."
+        }
+      </div>
+      <div className="mobileSidebar"></div>
+      <div className="mobileContent">{children}</div>
+      </div>
+    );
+  }
   return (
     <Fragment>
       <Navigation />
@@ -26,7 +41,7 @@ const Frame = ({ children, location }: FrameProps) => {
         </div>
         <div className="content">{children}</div>
       </div>
-    </Fragment>
+    </Fragment> 
   );
 }
 

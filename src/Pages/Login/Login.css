@@ -1,7 +1,6 @@
 .loginWrapper {
   display: flex;
   margin: 5em 0;
-  padding: 0 3em;
   justify-content: center;
 }
 
@@ -64,6 +63,7 @@
 
 @media screen and (min-width: 700px) {
   .loginWrapper {
+    padding: 0 3em;
     margin-top: 10em;
   }
 }

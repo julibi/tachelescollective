@@ -1,13 +1,43 @@
+.mobileGrid {
+  display: flex;
+  flex-direction: column;
+}
+
+.mobileTopbar {
+  width: 100%;
+  height: 50px;
+  border-bottom: 1px solid;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.mobileSidebar {
+  width: 50px;
+  height: 100%;
+  position: absolute;
+  border-right: 1px solid;
+}
+
+.mobileContent {
+  margin: 50px 0 0 50px;
+}
+
 .grid {
   display: flex;
   flex-direction: row;
-  /* border-bottom: 1px solid; */
+  border-bottom: 1px solid;
   border-left: 1px solid;
   border-right: 1px solid;
 }
 
 .sidebar {
-  display: none;
+  display: block;
+  min-width: 350px;
+  flex-grow: 1;
+  border-right: 1px solid;
+  padding: 2.3em;
 }
 
 .content {
@@ -52,18 +82,4 @@
 
 .navigationAbout > a:hover, .navigationTexts > a:focus {
   color: black;
-}
-
-@media screen and (min-width: 700px) {
-  .grid {
-    border-bottom: 1px solid;
-  }
-
-  .sidebar {
-    display: block;
-    min-width: 350px;
-    flex-grow: 1;
-    border-right: 1px solid;
-    padding: 2.3em;
-  }
 }
