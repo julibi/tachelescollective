@@ -1,5 +1,5 @@
 import React from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useFirebase } from '../Firebase';
 import history from '../../history';
@@ -28,7 +28,7 @@ const SignOutButton = ({ className }) => {
   )
 };
 
-export default withRouter(SignOutButton);
+export default SignOutButton;
 
 SignOutButton.propTypes = {
   firebase: PropTypes.object,

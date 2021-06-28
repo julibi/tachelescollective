@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Link,
-  withRouter
+  useLocation
 } from "react-router-dom";
 import classNames from 'classnames';
 import SignOutButton from '../SignOutButton';
@@ -9,7 +9,8 @@ import { AuthUserContext } from '../Session';
 
 import './Navigation.css';
 
-const Navigation = ({ location }) => {
+const Navigation = () => {
+  const location = useLocation();
   return (
     <AuthUserContext.Consumer>
       {authUser =>
@@ -37,4 +38,4 @@ const Navigation = ({ location }) => {
   );
 };
 
-export default withRouter(Navigation);
+export default Navigation;

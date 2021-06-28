@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { withRouter } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import classNames from "classnames";
 import history from "../../history";
 import { withAuthorization, AuthUserContext } from "../../Components/Session";
@@ -7,8 +7,9 @@ import { useFirebase } from "../../Components/Firebase";
 import AutoSuggest from "../../Components/AutoSuggest";
 import "./Write.css";
 
-const Write = ({ match, location }) => {
+const Write = ({ match }) => {
   const firebase = useFirebase();
+  const location = useLocation();
   const MIN_LENGTH = 33;
   const MAX_LENGTH = 800;
   const clearState = () => {
@@ -197,4 +198,4 @@ const Write = ({ match, location }) => {
 
 const condition = (authUser) => !!authUser;
 
-export default withAuthorization(condition)(withRouter(Write));
+export default withAuthorization(condition)(Write);

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
-import { RouteComponentProps, Link, withRouter } from "react-router-dom";
+import { RouteComponentProps, Link, useLocation } from "react-router-dom";
 import { useMediaQuery } from 'react-responsive'
 import Navigation from '../Navigation';
 
@@ -10,7 +10,8 @@ interface FrameProps extends RouteComponentProps<any> {
   children: React.ReactNode;
 }
 
-const Frame = ({ children, location }: FrameProps) => {
+const Frame = ({ children }: FrameProps) => {
+  const location = useLocation();
   const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
   if (isTabletOrMobile) {
     return (
@@ -45,4 +46,4 @@ const Frame = ({ children, location }: FrameProps) => {
   );
 }
 
-export default withRouter(Frame);
+export default Frame;

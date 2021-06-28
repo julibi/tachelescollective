@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Fragment } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useFirebase } from '../../Components/Firebase';
 import { withAuthentication, AuthUserContext } from '../../Components/Session';
 import Timer from '../../Components/Timer';
@@ -12,8 +12,9 @@ const splitInHalf = str => {
   return [str.slice(0, middle), str.slice(middle, str.length).trim()]
 }
 
-const TextDetail = ({ location }) => {
+const TextDetail = () => {
   const firebase = useFirebase();
+  const location = useLocation();
   const [text, setText] = useState(null);
   const [lastTextId, setLastTextId] = useState([]);
   const [formattedText, setFormattedText] = useState(null);
@@ -113,4 +114,4 @@ const TextDetail = ({ location }) => {
   );
 }
 
-export default withAuthentication(withRouter(TextDetail));
+export default withAuthentication(TextDetail);
