@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback, Fragment } from "react";
+import React, { useContext, useState, useEffect, useCallback, Fragment } from "react";
 import { withRouter } from "react-router-dom";
-import classNames from "classnames";
-import { withFirebase } from "../../Components/Firebase/context";
+import { FirebaseContext } from "../../Components/Firebase";
 import "./Login.css";
 
-const Login = ({ history, firebase }) => {
+const Login = ({ history }) => {
+  const firebase = useContext(FirebaseContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -87,4 +87,4 @@ const Login = ({ history, firebase }) => {
   );
 };
 
-export default withRouter(withFirebase(Login));
+export default withRouter(Login);

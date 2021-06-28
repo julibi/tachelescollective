@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { withFirebase } from '../Firebase/context';
+import React, { useContext, useState, useEffect } from 'react';
+import { FirebaseContext } from '../Firebase';
 
 export const LastTextContext = React.createContext(null);
 
 // TODO: finish this! Create a context just for fetching the last text and timer data
 
 const LastText = Component => {
-  const LastTextProv = ({firebase}) => {
+  const LastTextProv = () => {
+    const firebase = useContext(FirebaseContext);
     const [lastText, setLastText] = useState(null);
 
     useEffect(() => {
@@ -30,7 +31,7 @@ const LastText = Component => {
     );
   }
  
-  return withFirebase(LastTextProv);
+  return LastTextProv;
 };
  
 export default LastText;

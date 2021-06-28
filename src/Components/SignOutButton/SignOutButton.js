@@ -1,20 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { withFirebase } from '../Firebase/context';
+import { FirebaseContext } from '../Firebase';
 import history from '../../history';
 
 
-interface firebase {
-  doSignOut: () => void;
-}
+// interface firebase {
+//   doSignOut: () => void;
+// }
 
-interface SignOutButtonProps extends RouteComponentProps<any> {
-  firebase: firebase;
-  className: string;
-}
+// interface SignOutButtonProps extends RouteComponentProps<any> {
+//   firebase: firebase;
+//   className: string;
+// }
 
-const SignOutButton = ({ firebase, className }: SignOutButtonProps) => {
+const SignOutButton = ({ className }) => {
+  const firebase = useContext(FirebaseContext);
   const handleClick = async () => {
     await firebase.doSignOut();
 
@@ -27,7 +28,7 @@ const SignOutButton = ({ firebase, className }: SignOutButtonProps) => {
   )
 };
 
-export default withRouter(withFirebase(SignOutButton));
+export default withRouter(SignOutButton);
 
 SignOutButton.propTypes = {
   firebase: PropTypes.object,

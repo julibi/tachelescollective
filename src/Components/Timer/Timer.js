@@ -1,6 +1,6 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useContext, useEffect, useState, Fragment } from "react";
 import classNames from "classnames";
-import { withFirebase } from "../Firebase/context";
+import { FirebaseContext } from "../Firebase";
 import Skeleton from "../Skeleton";
 import { AuthUserContext } from "../Session";
 import history from "../../history";
@@ -8,7 +8,8 @@ import { toHHMMSS, formatTime } from "../../lib/timeStampConverter";
 
 import "./Timer.css";
 
-const Timer = ({ firebase, lastText, page, className }) => {
+const Timer = ({ lastText, page, className }) => {
+  const firebase = useContext(FirebaseContext);
   const [myUserId, setUserId] = useState(null);
   const [myUsername, setMyUsername] = useState(null);
   const [countdown, setCountdown] = useState(null);
@@ -84,8 +85,8 @@ const Timer = ({ firebase, lastText, page, className }) => {
 
   const ReplyButton = () => {
     // MOCKING
-    // if (shouldShowReplyButton && !isTimeUp) {
-    if (true) {
+    if (shouldShowReplyButton && !isTimeUp) {
+    // if (true) {
       return (
         <button
           className={classNames(
@@ -156,4 +157,4 @@ const Timer = ({ firebase, lastText, page, className }) => {
   );
 };
 
-export default withFirebase(Timer);
+export default Timer;
