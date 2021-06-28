@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import classNames from 'classnames';
-import { FirebaseContext } from '../../Components/Firebase';
+import { useFirebase } from '../../Components/Firebase';
 import { withAuthentication, AuthUserContext } from '../../Components/Session';
 import history from '../../history';
 import Timer from '../../Components/Timer'
@@ -10,7 +10,7 @@ import { formatTime } from '../../lib/timeStampConverter'
 import './Texts.css';
 
 const Texts = () => {
-  const firebase = useContext(FirebaseContext);
+  const firebase = useFirebase();
   const [texts, setTexts] = useState([]);
 
   useEffect(() => {

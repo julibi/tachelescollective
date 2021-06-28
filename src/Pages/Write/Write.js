@@ -1,15 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import classNames from "classnames";
-import NoMatch from "../NoMatch";
 import history from "../../history";
 import { withAuthorization, AuthUserContext } from "../../Components/Session";
-import { FirebaseContext } from "../../Components/Firebase";
+import { useFirebase } from "../../Components/Firebase";
 import AutoSuggest from "../../Components/AutoSuggest";
 import "./Write.css";
 
 const Write = ({ match, location }) => {
-  const firebase = useContext(FirebaseContext);
+  const firebase = useFirebase();
   const MIN_LENGTH = 33;
   const MAX_LENGTH = 800;
   const clearState = () => {

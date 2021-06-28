@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { FirebaseContext } from '../Firebase';
+import { useFirebase } from '../Firebase';
 import history from '../../history';
 
 
@@ -15,7 +15,7 @@ import history from '../../history';
 // }
 
 const SignOutButton = ({ className }) => {
-  const firebase = useContext(FirebaseContext);
+  const firebase = useFirebase();
   const handleClick = async () => {
     await firebase.doSignOut();
 

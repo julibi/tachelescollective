@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
-import { FirebaseContext } from '../../Components/Firebase';
+import { useFirebase } from '../../Components/Firebase';
 import { withAuthentication, AuthUserContext } from '../../Components/Session';
 import Timer from '../../Components/Timer';
 import history from '../../history';
@@ -13,7 +13,7 @@ const splitInHalf = str => {
 }
 
 const TextDetail = ({ location }) => {
-  const firebase = useContext(FirebaseContext);
+  const firebase = useFirebase();
   const [text, setText] = useState(null);
   const [lastTextId, setLastTextId] = useState([]);
   const [formattedText, setFormattedText] = useState(null);

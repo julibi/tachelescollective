@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { FirebaseContext } from '../Firebase';
+import React, { useState, useEffect } from 'react';
+import { useFirebase } from '../Firebase';
 
 export const LastTextContext = React.createContext(null);
 
@@ -7,7 +7,7 @@ export const LastTextContext = React.createContext(null);
 
 const LastText = Component => {
   const LastTextProv = () => {
-    const firebase = useContext(FirebaseContext);
+    const firebase = useFirebase();
     const [lastText, setLastText] = useState(null);
 
     useEffect(() => {

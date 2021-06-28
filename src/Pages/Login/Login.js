@@ -1,10 +1,10 @@
-import React, { useContext, useState, useEffect, useCallback, Fragment } from "react";
+import React, { useState, useEffect, useCallback, Fragment } from "react";
 import { withRouter } from "react-router-dom";
-import { FirebaseContext } from "../../Components/Firebase";
+import { useFirebase } from "../../Components/Firebase";
 import "./Login.css";
 
 const Login = ({ history }) => {
-  const firebase = useContext(FirebaseContext);
+  const firebase = useFirebase();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);

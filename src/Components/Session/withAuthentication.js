@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { FirebaseContext } from '../Firebase';
+import { useFirebase } from '../Firebase';
 import { AuthUserContext } from '.';
 
 const withAuthentication = Component => {
   const Authenticate = () => {
-    const firebase = useContext(FirebaseContext)
+    const firebase = useFirebase();
     const [authUser, setAuthUser] = useState(null);
     useEffect(() => {
       const fetchAuthUser = async () => {
