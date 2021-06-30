@@ -1,7 +1,6 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import classNames from 'classnames';
 import { useFirebase } from '../../Components/Firebase';
-import { withAuthentication, AuthUserContext } from '../../Components/Session';
 import history from '../../history';
 import Timer from '../../Components/Timer'
 import Skeleton from '../../Components/Skeleton'
@@ -76,4 +75,4 @@ const Texts = () => {
   );
 }
 
-export default withAuthentication(Texts);
+export default Texts;

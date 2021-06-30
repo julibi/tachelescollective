@@ -1,10 +1,9 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useFirebase } from '../../Components/Firebase';
-import { withAuthentication, AuthUserContext } from '../../Components/Session';
 import Timer from '../../Components/Timer';
 import history from '../../history';
-import { toHHMMSS, formatTime } from '../../lib/timeStampConverter';
+import { formatTime } from '../../lib/timeStampConverter';
 import './TextDetail.css';
 
 const splitInHalf = str => {
@@ -114,4 +113,4 @@ const TextDetail = () => {
   );
 }
 
-export default withAuthentication(TextDetail);
+export default TextDetail;

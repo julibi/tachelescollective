@@ -3,13 +3,16 @@ import ReactDOM from 'react-dom';
 
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import Firebase, { FirebaseContext } from './Components/Firebase';
+import { AuthUserProvider } from './Components/Session';
+import { FirebaseProvider } from './Components/Firebase';
 
 ReactDOM.render(
   <React.StrictMode>
-    <FirebaseContext.Provider value={new Firebase()}>
-      <App />
-    </FirebaseContext.Provider>
+    <FirebaseProvider>
+      <AuthUserProvider>
+        <App />
+      </AuthUserProvider>
+    </FirebaseProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

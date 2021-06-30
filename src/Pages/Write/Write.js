@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import classNames from "classnames";
 import history from "../../history";
-import { withAuthorization, AuthUserContext } from "../../Components/Session";
+import { useAuthUser } from "../../Components/Session";
 import { useFirebase } from "../../Components/Firebase";
 import AutoSuggest from "../../Components/AutoSuggest";
 import "./Write.css";
-
+const condition = (authUser) => !!authUser;
 const Write = ({ match }) => {
   const firebase = useFirebase();
+  const authUser = useAuthUser();
   const location = useLocation();
   const MIN_LENGTH = 33;
   const MAX_LENGTH = 800;
@@ -113,8 +114,20 @@ const Write = ({ match }) => {
     return () => {
       abortController.abort();
     };
-    debugger;
   }, []);
+
+  useEffect(() => {
+    if (!condition(authUser) ) {
+      history.push('/login');
+    }
+  }, [authUser]);
+
+  useEffect(() => {
+    if (!permittedToWrite) {
+      // prevent user's whose turn has not come yet, to access the write route by copy pasting
+      history.push("/nomatch");
+    }
+  }, [permittedToWrite]);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -134,14 +147,9 @@ const Write = ({ match }) => {
   }, [writerName, myUsername]);
 
   return (
-    <AuthUserContext.Consumer>
-      {(authUser) => {
-        // prevent user's whose turn has not come yet, to access the write route by copy pasting
-        if (!permittedToWrite) {
-          history.push("/nomatch");
-        }
-        if (writerName === myUsername && permittedToWrite) {
-          return (
+    <>{
+        (writerName === myUsername && permittedToWrite) &&
+          (
             <div className="pageWrapper">
               <form
                 onSubmit={(event) => handleTextSubmit(event)}
@@ -189,13 +197,9 @@ const Write = ({ match }) => {
                 </button>
               </form>
             </div>
-          );
-        }
-      }}
-    </AuthUserContext.Consumer>
+          )}
+    </>
   );
 };
 
-const condition = (authUser) => !!authUser;
-
-export default withAuthorization(condition)(Write);
+export default Write;
