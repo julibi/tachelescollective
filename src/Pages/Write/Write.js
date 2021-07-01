@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import classNames from "classnames";
-import history from "../../history";
 import { useAuthUser } from "../../Components/Session";
 import { useFirebase } from "../../Components/Firebase";
 import AutoSuggest from "../../Components/AutoSuggest";
 import "./Write.css";
 const condition = (authUser) => !!authUser;
 const Write = ({ match }) => {
-  const firebase = useFirebase();
   const authUser = useAuthUser();
+  const firebase = useFirebase();
+  const history = useHistory();
   const location = useLocation();
   const MIN_LENGTH = 33;
   const MAX_LENGTH = 800;

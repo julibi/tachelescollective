@@ -1,8 +1,7 @@
 import React from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { useHistory } from 'react-router';
 import PropTypes from 'prop-types';
 import { useFirebase } from '../Firebase';
-import history from '../../history';
 
 
 // interface firebase {
@@ -16,9 +15,9 @@ import history from '../../history';
 
 const SignOutButton = ({ className }) => {
   const firebase = useFirebase();
+  const history = useHistory();
   const handleClick = async () => {
     await firebase.doSignOut();
-
     history.push('/texts');
   };
   return (

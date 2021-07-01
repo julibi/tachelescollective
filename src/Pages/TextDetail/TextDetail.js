@@ -1,8 +1,7 @@
 import React, { useEffect, useState, Fragment } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useFirebase } from '../../Components/Firebase';
 import Timer from '../../Components/Timer';
-import history from '../../history';
 import { formatTime } from '../../lib/timeStampConverter';
 import './TextDetail.css';
 
@@ -13,6 +12,7 @@ const splitInHalf = str => {
 
 const TextDetail = () => {
   const firebase = useFirebase();
+  const history = useHistory();
   const location = useLocation();
   const [text, setText] = useState(null);
   const [lastTextId, setLastTextId] = useState([]);

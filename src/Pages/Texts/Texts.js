@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from 'react';
+import { useHistory } from 'react-router';
 import classNames from 'classnames';
 import { useFirebase } from '../../Components/Firebase';
-import history from '../../history';
 import Timer from '../../Components/Timer'
 import Skeleton from '../../Components/Skeleton'
 import { formatTime } from '../../lib/timeStampConverter'
@@ -10,6 +10,7 @@ import './Texts.css';
 
 const Texts = () => {
   const firebase = useFirebase();
+  const history = useHistory();
   const [texts, setTexts] = useState([]);
 
   useEffect(() => {

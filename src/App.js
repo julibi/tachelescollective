@@ -6,7 +6,6 @@ import {
 } from "react-router-dom";
 import history from './history';
 
-import { withAuthentication } from './Components/Session';
 import Texts from './Pages/Texts';
 import TextDetail from './Pages/TextDetail';
 import About from './Pages/About';
@@ -39,4 +38,4 @@ class App extends Component {
   }
 }
 
-export default withAuthentication(App);
+export default App;

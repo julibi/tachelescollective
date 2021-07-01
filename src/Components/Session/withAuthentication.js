@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { useFirebase } from '../Firebase';
 import { AuthUserContext } from '.';
 
+// NOT IN USE - KEEP AS FALLBACK
+
 const withAuthentication = Component => {
   const Authenticate = () => {
     const firebase = useFirebase();

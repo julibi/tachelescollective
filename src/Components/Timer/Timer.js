@@ -1,15 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import classNames from "classnames";
 import { useFirebase } from "../Firebase";
 import Skeleton from "../Skeleton";
 import { AuthUserContext } from "../Session";
-import history from "../../history";
-import { toHHMMSS, formatTime } from "../../lib/timeStampConverter";
+import { toHHMMSS } from "../../lib/timeStampConverter";
 
 import "./Timer.css";
 
 const Timer = ({ lastText, page, className }) => {
   const firebase = useFirebase();
+  const history = useHistory();
   const [myUserId, setUserId] = useState(null);
   const [myUsername, setMyUsername] = useState(null);
   const [countdown, setCountdown] = useState(null);
