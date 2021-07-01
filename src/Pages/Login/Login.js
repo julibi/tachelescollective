@@ -5,7 +5,7 @@ import "./Login.css";
 
 const Login = () => {
   const history = useHistory();
-  const firebase = useFirebase();
+  const { firebaseFunctions } = useFirebase();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -34,7 +34,7 @@ const Login = () => {
 
   const handleSubmit = async (event, email, password) => {
     event.preventDefault();
-    await firebase
+    await firebaseFunctions
       .doSignInWithEmailAndPassword(email, password)
       .then((authUser) => {
         resetLogin();

@@ -11,7 +11,7 @@ const splitInHalf = str => {
 }
 
 const TextDetail = () => {
-  const firebase = useFirebase();
+  const { firebaseFunctions } = useFirebase();
   const history = useHistory();
   const location = useLocation();
   const [text, setText] = useState(null);
@@ -26,7 +26,7 @@ const TextDetail = () => {
   useEffect(() => {
     const getTexts = async () => {
       // TODO: refactor, exact same fetching method inside Write.js
-      await firebase.texts().on('value', snapshot => {
+      await firebaseFunctions.texts().on('value', snapshot => {
         let formattedTextlist = [];
         for (let i = 0; i < Object.values(snapshot.val()).length; i++) {
           formattedTextlist.push({id: Object.keys(snapshot.val())[i], ...Object.values(snapshot.val())[i]})
@@ -36,19 +36,19 @@ const TextDetail = () => {
 
     };
     getTexts();
-  }, [firebase])
+  }, [firebaseFunctions])
   
   useEffect(() => {
     const textId = location.pathname.slice(6, location.pathname.length);
     // because textId has the slash in front
     setTextIdWithoutSlash(textId.substr(1, textId.length - 1));
     const getText = async () => {
-      await firebase.text(textId).once('value', snapshot => setText(snapshot.val()));
+      await firebaseFunctions.text(textId).once('value', snapshot => setText(snapshot.val()));
     };
 
     getText();
     const getTextIds = async () => {
-      await firebase.texts().on('value', snapshot => {
+      await firebaseFunctions.texts().on('value', snapshot => {
         let formattedTextlist = [];
         for (let i = 0; i < Object.values(snapshot.val()).length; i++) {
           formattedTextlist.push(Object.keys(snapshot.val())[i])
@@ -58,7 +58,7 @@ const TextDetail = () => {
     };
    
     getTextIds();
-  },[firebase, location.pathname]);
+  },[firebaseFunctions, location.pathname]);
 
   useEffect(() => {
     const splitted = text?.mainText && splitInHalf(text.mainText);

@@ -9,14 +9,14 @@ import { formatTime } from '../../lib/timeStampConverter'
 import './Texts.css';
 
 const Texts = () => {
-  const firebase = useFirebase();
+  const { firebaseFunctions } = useFirebase();
   const history = useHistory();
   const [texts, setTexts] = useState([]);
 
   useEffect(() => {
     const getTexts = async () => {
       // TODO: refactor, exact same fetching method inside Write.js
-      await firebase.texts().on('value', snapshot => {
+      await firebaseFunctions.texts().on('value', snapshot => {
         let formattedTextlist = [];
         for (let i = 0; i < Object.values(snapshot.val()).length; i++) {
           formattedTextlist.push({id: Object.keys(snapshot.val())[i], ...Object.values(snapshot.val())[i]})
@@ -26,7 +26,7 @@ const Texts = () => {
 
     };
     getTexts();
-  }, [firebase])
+  }, [firebaseFunctions])
 
   return (
     <div className="textContainer">

@@ -8,7 +8,7 @@ import "./Write.css";
 const condition = (authUser) => !!authUser;
 const Write = ({ match }) => {
   const authUser = useAuthUser();
-  const firebase = useFirebase();
+  const { firebaseFunctions } = useFirebase();
   const history = useHistory();
   const location = useLocation();
   const MIN_LENGTH = 33;
@@ -46,14 +46,14 @@ const Write = ({ match }) => {
       setError(`Your text needs to be at least${MIN_LENGTH} characters.`);
     } else if (!error.length) {
       try {
-        await firebase.texts().push({
+        await firebaseFunctions.texts().push({
           mainText,
           publishedAt: {
             server_timestamp: {
               ".sv": "timestamp",
             },
           },
-          authorID: firebase.currentUser(),
+          authorID: firebaseFunctions.currentUser(),
           authorName: myUsername,
           title,
           challenged,
@@ -81,22 +81,22 @@ const Write = ({ match }) => {
     const getUsers = async () => {
       // TODO: sort yourself out of that array
       // TODO: throw an error when submitting with wrong username
-      await firebase
+      await firebaseFunctions
         .users()
         .once("value", (snapshot) =>
           setUsers(
-            snapshot.val().filter((item) => item.id !== firebase.currentUser())
+            snapshot.val().filter((item) => item.id !== firebaseFunctions.currentUser())
           )
         );
     };
     getUsers();
 
     const getCurrentUsername = async () => {
-      await firebase
+      await firebaseFunctions
         .users()
         .once("value", (snapshot) =>
           setMyUsername(
-            snapshot.val().find((item) => item.id === firebase.currentUser())
+            snapshot.val().find((item) => item.id === firebaseFunctions.currentUser())
               ?.username
           )
         );
@@ -105,7 +105,7 @@ const Write = ({ match }) => {
 
     const textId = location.pathname.slice(6, location.pathname.length);
     const getWriterName = async () => {
-      await firebase
+      await firebaseFunctions
         .text(textId)
         .once("value", (snapshot) => setWriterName(snapshot.val()?.challenged));
     };
@@ -120,14 +120,14 @@ const Write = ({ match }) => {
     if (!condition(authUser) ) {
       history.push('/login');
     }
-  }, [authUser]);
+  }, [authUser, history]);
 
   useEffect(() => {
     if (!permittedToWrite) {
       // prevent user's whose turn has not come yet, to access the write route by copy pasting
       history.push("/nomatch");
     }
-  }, [permittedToWrite]);
+  }, [permittedToWrite, history]);
 
   useEffect(() => {
     const abortController = new AbortController();

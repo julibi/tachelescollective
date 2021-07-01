@@ -1,6 +1,4 @@
 import { FirebaseContext, useFirebase, FirebaseProvider } from './context';
-import Firebase from './Firebase';
+import { Firebase, auth, db, firebaseFunctions } from './Firebase';
  
-export default Firebase;
- 
-export { FirebaseContext, FirebaseProvider, useFirebase };
+export { FirebaseContext, FirebaseProvider, useFirebase, Firebase, auth, db, firebaseFunctions  };

@@ -7,12 +7,12 @@ export const LastTextContext = React.createContext(null);
 
 const LastText = Component => {
   const LastTextProv = () => {
-    const firebase = useFirebase();
+    const { firebaseFunctions } = useFirebase();
     const [lastText, setLastText] = useState(null);
 
     useEffect(() => {
       const getLastText = async () => {
-        await firebase.texts().on('value', snapshot => {
+        await firebaseFunctions.texts().on('value', snapshot => {
           let formattedTextlist = [];
           for (let i = 0; i < Object.values(snapshot.val()).length; i++) {
             formattedTextlist.push({id: Object.keys(snapshot.val())[i], ...Object.values(snapshot.val())[i]})
@@ -22,7 +22,7 @@ const LastText = Component => {
       };
 
       getLastText();
-    }, [firebase]);
+    }, [firebaseFunctions]);
      
     return (
       <LastTextContext.Provider value={lastText}>

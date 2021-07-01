@@ -3,22 +3,19 @@ import { useHistory } from 'react-router';
 import PropTypes from 'prop-types';
 import { useFirebase } from '../Firebase';
 
-
-// interface firebase {
-//   doSignOut: () => void;
-// }
-
 // interface SignOutButtonProps extends RouteComponentProps<any> {
 //   firebase: firebase;
 //   className: string;
 // }
 
 const SignOutButton = ({ className }) => {
-  const firebase = useFirebase();
+  const { firebaseFunctions } = useFirebase();
   const history = useHistory();
   const handleClick = async () => {
-    await firebase.doSignOut();
-    history.push('/texts');
+    if (firebaseFunctions) {
+      await firebaseFunctions.doSignOut();
+      history.push('/texts');
+    }
   };
   return (
     <button type="button" onClick={handleClick} className={className}>
@@ -30,6 +27,5 @@ const SignOutButton = ({ className }) => {
 export default SignOutButton;
 
 SignOutButton.propTypes = {
-  firebase: PropTypes.object,
   className: PropTypes.string
 };

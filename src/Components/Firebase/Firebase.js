@@ -1,4 +1,4 @@
-import app from 'firebase/app';
+import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 import firebaseConfig from '../../apiKeys';
@@ -15,37 +15,37 @@ import firebaseConfig from '../../apiKeys';
 // const config =
 //   process.env.NODE_ENV === 'production' ? prodConfig : devConfig;
 
-//TODO:
-// use hooks
-// turn it into Firebase.tsx
+export const Firebase = firebase.initializeApp(firebaseConfig);
+export const auth = firebase.auth();
+export const db = firebase.database();
 
-class Firebase {
-  constructor() {
-    app.initializeApp(firebaseConfig);
+const doSignInWithEmailAndPassword = (email, password) =>
+    auth.signInWithEmailAndPassword(email, password);
 
-    this.auth = app.auth();
-    this.db = app.database();
-  }
+const doSignOut = () => auth.signOut();
 
-  doSignInWithEmailAndPassword = (email, password) =>
-    this.auth.signInWithEmailAndPassword(email, password);
+const doPasswordReset = email => auth.sendPasswordResetEmail(email);
 
-  doSignOut = () => this.auth.signOut();
+const doPasswordUpdate = password => auth.currentUser?.updatePassword(password);
 
-  doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
+const users = () => db.ref('/users');
 
-  doPasswordUpdate = password =>
-    this.auth.currentUser.updatePassword(password);
+const texts = () => db.ref('/texts');
 
-  users = () => this.db.ref('/users');
+const stream = () => db.ref('/streams');
 
-  texts = () => this.db.ref('/texts');
+const currentUser = () => auth.currentUser?.uid;
 
-  stream = () => this.db.ref('/streams');
+const text = (textId) => db.ref('/texts' + textId);
 
-  currentUser = () => this.auth.currentUser?.uid;
-
-  text = (textId) => this.db.ref('/texts' + textId);
-}
-
-export default Firebase;
+export const firebaseFunctions = {
+    doSignInWithEmailAndPassword,
+    doSignOut,
+    doPasswordReset,
+    doPasswordUpdate,
+    users,
+    texts,
+    stream,
+    currentUser,
+    text
+};

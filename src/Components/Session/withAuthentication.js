@@ -11,7 +11,7 @@ const withAuthentication = Component => {
     const [authUser, setAuthUser] = useState(null);
     useEffect(() => {
       const fetchAuthUser = async () => {
-        await firebase.auth.onAuthStateChanged(authUser => {
+        await firebase.onAuthStateChanged(authUser => {
           if (authUser) {
             setAuthUser(authUser);
           } else {

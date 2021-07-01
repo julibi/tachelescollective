@@ -9,7 +9,7 @@ import { toHHMMSS } from "../../lib/timeStampConverter";
 import "./Timer.css";
 
 const Timer = ({ lastText, page, className }) => {
-  const firebase = useFirebase();
+  const { firebaseFunctions } = useFirebase();
   const history = useHistory();
   const [myUserId, setUserId] = useState(null);
   const [myUsername, setMyUsername] = useState(null);
@@ -35,7 +35,7 @@ const Timer = ({ lastText, page, className }) => {
   useEffect(() => {
     const createdAt = lastText ? lastText.publishedAt.server_timestamp : null;
     const getCurrentUsername = async () => {
-      await firebase
+      await firebaseFunctions
         .users()
         .on("value", (snapshot) =>
           setMyUsername(
@@ -62,7 +62,7 @@ const Timer = ({ lastText, page, className }) => {
         setCountdown("00:00:00");
       }
     }
-  }, [firebase, lastText, myUserId, countdown]);
+  }, [firebaseFunctions, lastText, myUserId, countdown]);
 
   const renderRequestVersions = () => {
     if (isTimeUp) {
