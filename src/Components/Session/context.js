@@ -18,7 +18,6 @@ export const AuthUserProvider = ({children}) => {
       if(auth) {
         listener = auth.onAuthStateChanged(
           authUser => {
-            console.log(auth);
             setAuthUser(authUser);
           },
         );

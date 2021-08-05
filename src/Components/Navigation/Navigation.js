@@ -12,7 +12,7 @@ import './Navigation.css';
 const Navigation = () => {
   const authUser = useAuthUser();
   const location = useLocation();
-  console.log(authUser);
+  
   return (
     <div className="navigationGrid">
       <div className="navigationEmpty" />

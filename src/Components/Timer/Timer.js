@@ -66,7 +66,7 @@ const Timer = ({ lastText, page, className }) => {
 
   const renderRequestVersions = () => {
     if (isTimeUp) {
-      if (myUsername) {
+      if (myUsername === challengedName) {
         return (
           <p className="pink">{`${challengedName.toUpperCase()}, DEINE ZEIT IST UM... NEXT!`}</p>
         );
